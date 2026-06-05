@@ -47,3 +47,6 @@ Claude Data Analysis Assistant - intelligent data analysis platform using Claude
   - Statistical data: takeout_stats.csv
   - Recommendations: visualization_recommendations.md, modeling_recommendations.md
   - Code: analyze_takeout_data_fixed.py
+
+## SQL Script Understanding
+- [小蚕业务SQL脚本理解](sr_script_understanding.md) - 对20250901_manuscript.sql中业务逻辑、数据表和指标的综合理解

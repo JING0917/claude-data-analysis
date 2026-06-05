@@ -1,3 +1,4 @@
 {
-    "claudeCode.allowDangerouslySkipPermissions": false
+    "claudeCode.allowDangerouslySkipPermissions": false,
+    "claude.code.maxTokens": 8000
 }

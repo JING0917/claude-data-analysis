@@ -1,280 +1,173 @@
 ---
 allowed-tools: Task, Read, Write, Bash, Grep, Glob
-argument-hint: [dataset] [report_type] [format]
-description: Generate comprehensive analysis reports for specified dataset
+argument-hint: [data_file] [analysis_goal]
+description: 分析工作流 — 判断方案合理性 → 输出框架 → 用户确认 → 执行分析 → 生成钉钉报告
 ---
 
-# Report Generation Command
+# 分析报告工作流
 
-Generate comprehensive analysis report for dataset `$1` with report type `$2` in `$3` format using the report-writer subagent.
+用户提供数据文件 `$1`，分析目标 `$2`，以及分析思路（可选，在命令后的消息中给出）。
 
-## Context
-- Dataset location: @data_storage/$1
-- Report type: $2 (summary, complete, executive, technical, custom)
-- Output format: $3 (markdown, html, pdf, json, docx)
-- Current working directory: !`pwd`
-- Output directory: ./analysis_reports/
-- Available templates and formatting options
+## 工作流（严格按顺序，不可跳过）
 
-## Your Task
+### 阶段 0：数据读取
 
-Use the report-writer subagent to create professional, comprehensive analysis reports:
+- 如果数据文件是 Excel (.xlsx/.xls)，用 Python pandas 读取所有 sheet，展示每个 sheet 的列名、行数、前几行样例
+- 如果数据文件是 CSV，同样处理
+- **不要做任何分析，只展示数据结构让用户确认数据是否正确读取**
 
-### 1. Report Planning
-- Determine appropriate report structure based on type and audience
-- Gather all relevant analysis results and visualizations
-- Plan narrative flow and storytelling approach
-- Select appropriate level of technical detail
+### 阶段 1：方案判断（阻塞点 1）
 
-### 2. Content Generation
-- Write compelling executive summary (for executive reports)
-- Create detailed methodology sections (for technical reports)
-- Present key findings with supporting evidence
-- Include data visualizations with explanations
-- Provide actionable recommendations
+数据确认后，输出以下内容并**等待用户确认**：
 
-### 3. Quality Assurance
-- Verify accuracy of all statistics and claims
-- Ensure logical consistency throughout the report
-- Check for clarity and readability
-- Validate proper citation of sources and methods
+**1.1 数据质量评估**
+- 缺失值情况
+- 数据周期/时间范围
+- 关键字段完整性
+- 是否存在明显的数据问题
 
-### 4. Format and Deliver
-- Apply appropriate formatting for the selected output format
-- Create professional document structure
-- Add necessary metadata and references
-- Generate final deliverable files
+**1.2 分析方案判断**
 
-## Report Types
+分两种情况：
 
-### Summary Report
-- Brief overview of key findings
-- Essential statistics and insights
-- High-level recommendations
-- 1-2 pages in length
+A. **用户给了分析思路** → 判断：
+  - 这个思路是否合理？
+  - 数据能否支撑这个思路？
+  - 需要做什么调整？为什么？
+  - 有没有更根本的问题需要先解决？
 
-### Complete Report
-- Comprehensive analysis documentation
-- Detailed methodology and results
-- Full statistical analysis
-- Extensive visualizations and explanations
-- Technical appendices and references
+B. **用户没给分析思路** → 根据分析目标给出：
+  - 建议的分析思路
+  - 为什么选这个思路
+  - 需要数据满足什么条件
 
-### Executive Report
-- Business-focused summary
-- Key performance indicators
-- Strategic recommendations
-- Action items and implementation roadmap
-- Financial impact assessment
+格式示例：
+```
+## 数据质量
+- 时间范围：4/1-4/30，共30天
+- 缺失值：无
+- 问题：xxx
 
-### Technical Report
-- Detailed methodology documentation
-- Statistical analysis results
-- Technical appendices
-- Code and algorithm documentation
-- Peer-review ready format
+## 方案判断
+- 你的思路：[复述用户思路]
+- 调整建议：[具体建议及理由]
+- 替代方案（如有）：[说明]
 
-### Custom Report
-- User-defined structure and content
-- Tailored to specific requirements
-- Flexible formatting options
-- Custom sections and emphasis
-
-## Output Formats
-
-### Markdown (md)
-- Web-friendly format
-- Version control friendly
-- Easy to convert to other formats
-- Good for documentation and collaboration
-
-### HTML (html)
-- Interactive web format
-- Embedded visualizations
-- Responsive design
-- Web browser accessible
-
-### PDF (pdf)
-- Professional print format
-- Fixed layout
-- High-quality output
-- Distribution ready
-
-### JSON (json)
-- Structured data format
-- Machine readable
-- API friendly
-- Integration ready
-
-### DOCX (docx)
-- Microsoft Word format
-- Business standard
-- Editable format
-- Corporate ready
-
-## Expected Output
-
-### Report Files
-- `analysis_reports/$1_$2_report.$3` - Main report file
-- `analysis_reports/$1_appendix.$3` - Technical appendix
-- `analysis_reports/$1_visualizations.$3` - Visualization compilation
-- `analysis_reports/$1_metadata.json` - Report metadata
-
-### Content Structure
-- **Title Page**: Report title, author, date, version
-- **Executive Summary**: Key findings and recommendations
-- **Introduction**: Background and objectives
-- **Methodology**: Analysis approach and methods
-- **Results**: Detailed findings and statistics
-- **Discussion**: Interpretation and implications
-- **Conclusions**: Summary and next steps
-- **References**: Sources and citations
-- **Appendices**: Technical details and supplementary material
-
-## Quality Standards
-
-### Content Quality
-- **Accuracy**: All statistics and claims must be verified
-- **Clarity**: Clear, concise, and understandable language
-- **Completeness**: Cover all important aspects of the analysis
-- **Relevance**: Focus on audience-relevant information
-- **Objectivity**: Balanced and unbiased presentation
-
-### Technical Quality
-- **Statistical Validity**: Proper statistical methods and interpretation
-- **Methodological Rigor**: Sound analysis methodology
-- **Data Integrity**: Accurate representation of data
-- **Reproducibility**: Sufficient detail for reproduction
-- **Documentation**: Comprehensive documentation of methods
-
-### Presentation Quality
-- **Professional Formatting**: Industry-standard formatting
-- **Visual Integration**: Seamless integration of visualizations
-- **Readability**: Clear typography and layout
-- **Accessibility**: Accessible design and content
-- **Consistency**: Consistent styling throughout
-
-## Report Templates
-
-### Executive Summary Template
-```markdown
-# Executive Summary: $1 Analysis
-
-## Key Findings
-- **Primary Insight**: [Key statistical finding]
-- **Business Impact**: [Business-relevant implication]
-- **Performance Metrics**: [KPIs and measurements]
-
-## Recommendations
-1. **Immediate Action**: [Specific action item with timeline]
-2. **Strategic Initiative**: [Long-term recommendation]
-3. **Investment Priority**: [Resource allocation recommendation]
-
-## Next Steps
-- **Phase 1 (0-30 days)**: [Immediate actions]
-- **Phase 2 (30-90 days)**: [Medium-term initiatives]
-- **Phase 3 (90+ days)**: [Long-term strategic actions]
+是否按此方案继续？
 ```
 
-### Technical Report Template
-```markdown
-# Technical Analysis Report: $1
+用户回复确认（或调整后确认）才能进入下一阶段。
 
-## Abstract
-Brief summary of analysis objectives, methods, and key findings.
+### 阶段 2：分析框架（阻塞点 2）
 
-## 1. Introduction
-### 1.1 Background and Objectives
-Context and purpose of the analysis.
+方案确认后，输出**分析框架**，等待用户确认：
 
-### 1.2 Data Description
-Source, structure, and characteristics of the dataset.
+```
+## 分析框架
 
-## 2. Methodology
-### 2.1 Data Preparation
-Data cleaning, transformation, and preprocessing steps.
+### 结论方向
+[预期要回答的核心问题]
 
-### 2.2 Analytical Methods
-Statistical methods and algorithms used in the analysis.
+### 指标口径
+| 指标 | 计算方式 | 说明 |
+|------|---------|------|
+| xxx | xxx | xxx |
 
-## 3. Results
-### 3.1 Descriptive Statistics
-Summary statistics and data characteristics.
+### 分析步骤
+1. xxx
+2. xxx
+3. xxx
 
-### 3.2 Inferential Statistics
-Hypothesis testing results and confidence intervals.
+### 验证逻辑
+[如何自证结论的可靠性]
 
-### 3.3 Key Findings
-Detailed presentation of analysis results.
-
-## 4. Discussion
-### 4.1 Interpretation
-Explanation of what the findings mean.
-
-### 4.2 Limitations
-Constraints and limitations of the analysis.
-
-## 5. Conclusions
-### 5.1 Summary
-Recap of key insights and discoveries.
-
-### 5.2 Recommendations
-Actionable recommendations based on findings.
-
-## 6. References
-Citations to relevant literature and methods.
-
-## 7. Appendices
-### 7.1 Technical Details
-Additional technical information.
-### 7.2 Data Dictionary
-Detailed variable descriptions.
-### 7.3 Code Listings
-Relevant code snippets.
+确认后开始分析？
 ```
 
-## Best Practices
+用户回复确认后才能进入阶段 3。
 
-### Report Writing
-- **Know Your Audience**: Tailor content to audience expertise level
-- **Tell a Story**: Create a narrative flow from data to insights
-- **Be Concise**: Include only relevant information
-- **Use Visuals**: Support text with appropriate visualizations
-- **Provide Context**: Explain the significance of findings
+### 阶段 3：执行分析
 
-### Data Presentation
-- **Use Appropriate Charts**: Select chart types based on data type
-- **Label Clearly**: Ensure all charts and tables are clearly labeled
-- **Include Units**: Always include units of measurement
-- **Highlight Key Points**: Emphasize important findings
-- **Ensure Accessibility**: Make content accessible to all users
+按确认的框架执行分析：
+- 所有计算用 Python pandas/numpy/scipy
+- 统计分析需给出置信区间或P值
+- 图表（如有必要）用 matplotlib 生成
 
-### Recommendations
-- **Be Specific**: Provide concrete, actionable recommendations
-- **Prioritize**: Rank recommendations by importance and impact
-- **Include Timeline**: Specify when actions should be taken
-- **Assign Ownership**: Identify who should take action
-- **Measure Success**: Define how success will be measured
+### 阶段 4：输出报告
 
-## Example Usage
-```bash
-/report user_behavior.csv complete markdown
-/report sales_data.csv executive pdf
-/report customer_data.csv technical html
-/report financial_data.json summary json
-/report custom_data custom docx
+按固定结构输出两份报告，保存到 `analysis_reports/` 目录。
+
+#### 4.1 Markdown 钉钉报告
+
+```
+## 一、结论
+[1-3句话核心结论，业务语言]
+
+## 二、指标口径
+| 指标 | 计算方式 | 说明 |
+|------|---------|------|
+
+## 三、数据分析
+[按分析步骤展开，数据 + 解读]
+
+## 四、验证
+[逻辑链自证，方法的局限性说明]
 ```
 
-## Integration with Other Commands
-- Use after `/analyze` to have analysis results for reporting
-- Combine with `/visualize` to include visualizations in reports
-- Follow with `/quality` to validate report data quality
-- Precede with `/hypothesis` to include research findings
+#### 4.2 Excel 报告（自动生成）
 
-## Notes
-- Dataset should be located in the data_storage/ directory
-- Reports will be saved to analysis_reports/ directory
-- Use Task tool to delegate to report-writer subagent
-- Consider the target audience when selecting report type
-- Ensure all data analysis is complete before generating reports
-- Review and customize reports before final distribution
+使用 `.claude/utils/excel_report.py` 生成同名的 `.xlsx` 文件，多 sheet 结构：
+
+| Sheet | 内容 |
+|-------|------|
+| 概览 | KPI 指标卡片（关键数值 + 同比/环比变化），带颜色区分涨跌 |
+| 数据明细 | 清洗后的分析数据，表头加粗蓝底白字，冻结首行，带筛选器 |
+| 趋势图 | 时间序列折线图（Excel 原生图表，可编辑），数据存在隐藏 sheet |
+| 对比图 | 柱状对比图（Excel 原生图表，可编辑） |
+
+**Excel 生成规则**：
+- 概览页：指标自动布局，正值涨用绿色、负值跌用红色
+- 数据明细：数字自动加千分位，百分比保留一位小数，列宽自适应
+- 图表：优先 Excel 原生图表（用户可在 Excel 中直接修改颜色、样式）；复杂统计图（热力图、箱线图等）用 matplotlib 图片嵌入
+- 图表配色统一使用蓝色调（#4472C4），与表头一致
+
+**调用路径**：
+```
+analysis_reports/
+├── {filename}_报告.md      ← 钉钉格式结论报告
+└── {filename}_报告.xlsx    ← 多 sheet 格式化 Excel，含图表
+```
+
+### 阶段 5：更新分析索引
+
+报告生成完毕且用户确认无误后，更新 `analysis_reports/INDEX.md`。
+
+**INDEX.md 结构**（两个区互不干扰）：
+
+```
+## 分析记录
+| 日期 | 分析需求 | 数据文件 | 结论 |
+|------|---------|----------|------|
+
+## 其他产出
+| 日期 | 类型 | 内容 | 说明 |
+|------|------|------|------|
+```
+
+**操作**：在「分析记录」表格中，以「数据文件 + 分析需求」作为唯一标识：
+- 如果已有相同记录 → **替换**日期和结论（保留最新版本）
+- 如果没有 → **追加**新行
+
+**规则**：
+- 结论只写一句话，业务语言，不超过 30 字
+- 不追加过程描述、不写口径细节
+- 同一数据文件 + 同一需求只保留一条，用最新日期覆盖
+- 「其他产出」区不动，只更新「分析记录」区
+
+## 规则
+
+- 每个阻塞点必须等用户明确确认后才能继续
+- 不要跳过阶段直接输出最终报告
+- 阶段 4 报告严格按四段结构，不额外添加章节
+- 所有数值保留合理精度，不堆砌小数位
+- Excel 报告和 markdown 报告必须同时产出，除非用户明确说不要 Excel

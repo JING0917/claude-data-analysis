@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信息系统项目管理师 - 15天极简备考</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    line-height: 1.7;
+    padding: 20px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  h2 {
+    font-size: 20px;
+    color: #1a1a2e;
+    border-left: 4px solid #4a6cf7;
+    padding-left: 12px;
+    margin-bottom: 16px;
+  }
+  h3 {
+    font-size: 16px;
+    color: #4a6cf7;
+    margin: 16px 0 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  th, td {
+    padding: 8px 12px;
+    border: 1px solid #e8e8e8;
+    text-align: left;
+  }
+  th {
+    background: #4a6cf7;
+    color: #fff;
+    font-weight: 600;
+  }
+  tr:nth-child(even) { background: #f8f9ff; }
+
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    text-align: center;
+    font-size: 13px;
+  }
+  .plan-grid .header {
+    background: #4a6cf7;
+    color: #fff;
+    padding: 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .plan-grid .cell {
+    background: #f8f9ff;
+    padding: 10px 6px;
+    border-radius: 6px;
+    border: 1px solid #e8e8e8;
+  }
+  .plan-grid .cell strong { display: block; color: #4a6cf7; }
+
+  .process-group {
+    margin-bottom: 16px;
+  }
+  .process-group h3 {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .pg-init { background: #52c41a; }
+  .pg-plan { background: #1890ff; }
+  .pg-exec { background: #fa8c16; }
+  .pg-monitor { background: #eb2f96; }
+  .pg-close { background: #722ed1; }
+
+  .footer-note {
+    background: linear-gradient(135deg, #4a6cf7, #6e8efb);
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .plan-grid { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 12px; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>信息系统项目管理师</h1>
+  <p class="subtitle">15天极简备考计划 · 每天2小时 · 5月23日考试</p>
+
+  <!-- 上帝视角 -->
+  <div class="card" style="border-left:4px solid #e74c3c;">
+    <h2 style="border-left-color:#e74c3c;">上帝视角：整个考试就一个逻辑</h2>
+
+    <div style="background:#fff5f5;padding:14px;border-radius:8px;margin-bottom:16px;">
+      <p style="font-size:15px;"><strong>这个考试只考一件事：</strong>你作为项目经理，怎么把一个复杂的信息系统项目从"一团迷雾"变成"可控交付"。下面6层透视，帮你把碎片串起来。</p>
+    </div>
+
+    <h3>第一层：PDCA = 所有知识的DNA</h3>
+    <table>
+      <tr><th style="width:60px;">阶段</th><th style="width:120px;">对应过程组</th><th>核心问题</th></tr>
+      <tr><td><strong>P 计划</strong></td><td>启动 + 规划（26个）</td><td style="color:#e74c3c;">要做啥？怎么做？花多少？有哪些风险？</td></tr>
+      <tr><td><strong>D 执行</strong></td><td>执行（10个）</td><td style="color:#e74c3c;">按计划干，管好人、管好沟通、管好采购</td></tr>
+      <tr><td><strong>C 检查</strong></td><td>监控（12个）</td><td style="color:#e74c3c;">进度偏没偏？成本超没超？质量合不合格？</td></tr>
+      <tr><td><strong>A 纠偏</strong></td><td>监控（同上）</td><td style="color:#e74c3c;">偏了就改——必须走<strong>变更控制流程</strong>，不能偷偷改</td></tr>
+    </table>
+    <p style="font-size:13px;color:#e74c3c;margin-top:6px;">关键理解：监控过程组占12个（最多），因为IT项目最大特点就是不确定、需求总变。监控不是找茬，是管理的核心发动机。</p>
+
+    <h3>第二层：10大知识域是一条依赖链</h3>
+    <div style="background:#f0f5ff;padding:14px;border-radius:8px;text-align:center;font-size:14px;line-height:2;">
+      <strong style="color:#4a6cf7;">范围</strong>（做什么）→
+      <strong style="color:#4a6cf7;">进度</strong>（做多久）→
+      <strong style="color:#4a6cf7;">成本</strong>（花多少）→
+      <strong style="color:#4a6cf7;">质量</strong>（做多好）→
+      <strong style="color:#4a6cf7;">风险</strong>（对以上所有领域的威胁）<br>
+      <span style="color:#888;">支撑体系：资源（人）· 沟通（信息）· 干系人（期望）· 采购（外购）· 整合（统管全局）</span>
+    </div>
+    <p style="font-size:13px;color:#e74c3c;margin-top:8px;">考试推论：案例题中只要出现"需求不清""范围蔓延"，根源一定是范围管理没做好 → 进度一定偏、成本一定超、质量一定差 → 连锁反应。</p>
+
+    <h3>第三层：49个过程 = 每条线的"流水线"</h3>
+    <p style="font-size:13px;">每做一个知识域，都是<strong>先规划→再执行→再监控</strong>。以范围管理6个过程为例：</p>
+    <div style="background:#f8f9ff;padding:12px;border-radius:8px;font-size:13px;overflow-x:auto;">
+      <code style="white-space:nowrap;">
+        ①规划范围管理（定规矩）→ ②收集需求（甲方要啥）→ ③定义范围（写清楚做什么）→ ④创建WBS（拆成能分配的工作包）→ ⑤确认范围（甲方验收）→ ⑥控制范围（有人加需求？走变更！不许镀金）
+      </code>
+    </div>
+    <p style="font-size:12px;color:#888;margin-top:6px;">所有知识域都是这条路：从模糊→清晰→可执行→可验证。你不需要背49个名字，只需要理解每个知识域的"规划→执行→监控"流水线。</p>
+
+    <h3>第四层：计算题 = 量化判断，三类就够</h3>
+    <table>
+      <tr><th style="width:100px;">类型</th><th style="width:300px;">本质</th><th>核心公式</th></tr>
+      <tr>
+        <td><strong>挣值分析</strong></td>
+        <td>三个数做加减除法：实际 vs 计划</td>
+        <td>SV=EV−PV；CV=EV−AC；SPI=EV/PV；CPI=EV/AC<br>ETC(非典型)=BAC−EV；EAC=AC+ETC</td>
+      </tr>
+      <tr>
+        <td><strong>关键路径法</strong></td>
+        <td>正推最早、反推最晚、时差=0即关键</td>
+        <td>正推得ES/EF → 反推得LF/LS → TF=LF−EF<br><strong>TF=0的路径 = 关键路径</strong></td>
+      </tr>
+      <tr>
+        <td><strong>PERT三点估算</strong></td>
+        <td>加权公式把不确定性变确定性</td>
+        <td>t=(O+4M+P)/6；σ=(P−O)/6；σ²=[(P−O)/6]²</td>
+      </tr>
+    </table>
+
+    <h3>第五层：案例题 = 一个模板反复套</h3>
+    <p style="font-size:13px;">案例题只有一个模式：<strong>项目出事了 → 分析原因 → 给解决方案。</strong></p>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:8px;">
+      <div style="background:#fce4ec;padding:10px;border-radius:6px;font-size:13px;">
+        <strong>原因永远从这5个角度找：</strong><br>
+        ① 缺流程（没走变更/没做风险计划/没编WBS）<br>
+        ② 缺人（项目经理一人干，没让团队参与）<br>
+        ③ 缺评审（方案没评审，需求没签字）<br>
+        ④ 缺监控（没跟踪进度/没控制范围/没做质量审计）<br>
+        ⑤ 缺沟通（跟甲方/团队/供应商没说清楚）
+      </div>
+      <div style="background:#e8f5e9;padding:10px;border-radius:6px;font-size:13px;">
+        <strong>解决措施的万能套路：</strong><br>
+        ① 制定/完善XX管理计划<br>
+        ② 识别/确认XX<br>
+        ③ 按变更流程实施<br>
+        ④ 加强监控与评审<br>
+        ⑤ 与干系人沟通到位<br>
+        <span style="color:#888;">核心一句话：先定规矩→再按规矩办→出问题走流程</span>
+      </div>
+    </div>
+
+    <h3>第六层：考场上"发挥"的6条铁律</h3>
+    <div style="background:#fff8e1;padding:14px;border-radius:8px;font-size:13px;line-height:2;">
+      <strong>① 先规划再干活</strong> — 没有计划就开干 = 一定出事<br>
+      <strong>② 一个人拍板是错的</strong> — 项目经理不是皇帝，要团队参与、干系人认可、CCB审批<br>
+      <strong>③ 偷偷改是错的</strong> — 任何变化必须走变更控制流程<br>
+      <strong>④ 忘了沟通是错的</strong> — 干系人不知情必有幺蛾子<br>
+      <strong>⑤ 收尾不能省</strong> — 验收、归档、经验教训总结，缺一不可<br>
+      <strong>⑥ 计算题套公式</strong> — EV/PV/AC/CV/SV就是加减法，关键路径就是最长那条
+    </div>
+    <p style="margin-top:10px;background:#f5f5f5;padding:10px;border-radius:6px;font-size:13px;color:#333;">
+      <strong>总结：</strong>这6条能覆盖案例题70%以上踩分点。结合前面WBS、挣值、CPM、PERT的公式表 + 六层上帝视角，考试时遇到不会的就往回推——<strong>所有答案的底层逻辑都是PDCA</strong>。
+    </p>
+  </div>
+
+  <!-- 总览 -->
+  <div class="card">
+    <h2>15天总览（每天2小时）</h2>
+    <div class="plan-grid" style="margin-bottom:20px;">
+      <div class="header">阶段</div>
+      <div class="header">天数</div>
+      <div class="header">每天安排</div>
+      <div class="header">目标</div>
+
+      <div class="cell"><strong>刷选择</strong></div>
+      <div class="cell">D1-6</div>
+      <div class="cell">1套真题+订正(1h)<br>背49过程+英文(30min)<br>回顾错题(30min)</div>
+      <div class="cell">选择题45+/75</div>
+
+      <div class="cell"><strong>计算+案例</strong></div>
+      <div class="cell">D7-11</div>
+      <div class="cell">1道计算+1道案例(1h)<br>背49过程+英文(30min)<br>案例考点(30min)</div>
+      <div class="cell">计算满分<br>案例踩分</div>
+
+      <div class="cell"><strong>论文</strong></div>
+      <div class="cell">D12-13</div>
+      <div class="cell">背3篇骨架(1.5h)<br>回顾错题(30min)</div>
+      <div class="cell">论文45+</div>
+
+      <div class="cell"><strong>收尾</strong></div>
+      <div class="cell">D14-15</div>
+      <div class="cell">只看错题+背骨架<br>不再做新题</div>
+      <div class="cell">巩固记忆</div>
+    </div>
+  </div>
+
+  <!-- 前5天：选择题 -->
+  <div class="card">
+    <h2>D1-6：刷选择题（目标45+/75）</h2>
+
+    <h3>为什么这样安排</h3>
+    <p style="background:#f8f9ff;padding:12px;border-radius:8px;margin-bottom:12px;">
+      选择题靠<strong>频率积累</strong>提分，先刷形成题感。近5年真题重复率不低，刷透就够及格线。选择题最后5题是英文题，花30分钟背缩写就能拿满分。
+    </p>
+
+    <h3>具体做法</h3>
+    <table>
+      <tr><th>动作</th><th>时间</th><th>说明</th></tr>
+      <tr><td>刷真题</td><td>1h/天</td><td>不看教材，直接做近5年真题（10套）。<strong>每套做完逐题对答案，错题搞懂"为什么选那个"，不是"那个选项叫什么"。</strong></td></tr>
+      <tr><td>背49过程名</td><td>15min/天</td><td>用下方口诀顺口溜，6天足够记熟。不需要默写，能判断"某过程属于哪个过程组"即可。</td></tr>
+      <tr><td>背英文缩写</td><td>15min/天</td><td>优先挣值10个（EV/PV/AC/BAC/EAC/ETC/CV/SV/CPI/SPI），其次WBS/CPM/PERT，最后扫合同类型。</td></tr>
+      <tr><td>回顾错题</td><td>30min/天</td><td>当天错题+前一天错题翻一遍，不记笔记，靠频率自然记住。</td></tr>
+    </table>
+
+    <h3>易混淆重点突破</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; font-size:13px;">
+      <div style="background:#fff0f0;padding:10px;border-radius:6px;">
+        <strong>确认范围 vs 控制质量</strong><br>
+        确认范围：客户验收（对还是对的范围？）<br>
+        控制质量：内部检查（做得对不对？）
+      </div>
+      <div style="background:#fff0f0;padding:10px;border-radius:6px;">
+        <strong>管理质量 vs 控制质量</strong><br>
+        管理质量：过程合规（执行过程）<br>
+        控制质量：结果达标（监控过程）
+      </div>
+      <div style="background:#fff0f0;padding:10px;border-radius:6px;">
+        <strong>规划风险应对 vs 实施风险应对</strong><br>
+        规划：定策略（规划过程组）<br>
+        实施：执行策略（执行过程组）
+      </div>
+    </div>
+  </div>
+
+  <!-- 中间5天：计算+案例 -->
+  <div class="card">
+    <h2>D7-11：计算+案例分析（目标：计算满分，案例踩分）</h2>
+
+    <h3>为什么这样安排</h3>
+    <p style="background:#f8f9ff;padding:12px;border-radius:8px;margin-bottom:12px;">
+      计算题是<strong>确定性最高</strong>的拿分项——公式对了就是满分，比选择题性价比高得多。简答题翻来覆去就几个套路，背模板就能踩到60%的分。放在中间巩固，同时每天继续背49过程和英文。
+    </p>
+
+    <!-- ===== 计算题 ===== -->
+    <h3 style="background:#fff0e0;display:inline-block;padding:4px 12px;border-radius:4px;">📐 计算题——练到肌肉记忆</h3>
+
+    <!-- 挣值分析 -->
+    <h4 style="color:#e67e22;margin:16px 0 8px;">① 挣值分析（必考！每年1道）</h4>
+    <table>
+      <tr><th>缩写</th><th>英文全称</th><th>中文</th><th>公式</th><th>使用场景</th></tr>
+      <tr>
+        <td><strong>EV</strong></td><td>Earned Value</td><td>挣值</td>
+        <td>—（基础变量，题目给或自己算）</td>
+        <td>已完成工作的计划价值；算偏差/指数的<strong>核心输入</strong></td>
+      </tr>
+      <tr>
+        <td><strong>PV</strong></td><td>Planned Value</td><td>计划价值</td>
+        <td>—（题目给）</td>
+        <td>按计划此刻该完成的工作价值；<strong>比较基准</strong></td>
+      </tr>
+      <tr>
+        <td><strong>AC</strong></td><td>Actual Cost</td><td>实际成本</td>
+        <td>—（题目给）</td>
+        <td>实际花掉的钱；<strong>算成本偏差的来源</strong></td>
+      </tr>
+      <tr>
+        <td><strong>CV</strong></td><td>Cost Variance</td><td>成本偏差</td>
+        <td>EV − AC</td>
+        <td>&lt;0 超支 &gt;0 节约；<strong>问"成本超了没"就用CV</strong></td>
+      </tr>
+      <tr>
+        <td><strong>SV</strong></td><td>Schedule Variance</td><td>进度偏差</td>
+        <td>EV − PV</td>
+        <td>&lt;0 滞后 &gt;0 超前；<strong>问"进度落后没"就用SV</strong></td>
+      </tr>
+      <tr>
+        <td><strong>CPI</strong></td><td>Cost Performance Index</td><td>成本绩效指数</td>
+        <td>EV / AC</td>
+        <td>&lt;1 超支 &gt;1 节省；<strong>问"1元钱花出多少价值"</strong></td>
+      </tr>
+      <tr>
+        <td><strong>SPI</strong></td><td>Schedule Performance Index</td><td>进度绩效指数</td>
+        <td>EV / PV</td>
+        <td>&lt;1 滞后 &gt;1 超前；<strong>问"进度效率"</strong></td>
+      </tr>
+      <tr>
+        <td><strong>BAC</strong></td><td>Budget at Completion</td><td>完工预算</td>
+        <td>—（题目直接给）</td>
+        <td>项目总预算；<strong>所有估算的基准值</strong></td>
+      </tr>
+      <tr>
+        <td><strong>EAC</strong></td><td>Estimate at Completion</td><td>完工估算</td>
+        <td>非典型：AC+(BAC−EV)<br>典型：BAC/CPI</td>
+        <td>按当前趋势项目最终花多少；<strong>案例题最常问</strong></td>
+      </tr>
+      <tr>
+        <td><strong>ETC</strong></td><td>Estimate to Complete</td><td>完工尚需估算</td>
+        <td>EAC − AC</td>
+        <td>剩余工作还要花多少钱；<strong>配合EAC使用</strong></td>
+      </tr>
+    </table>
+
+    <h5 style="margin:12px 0 4px;">完工估算 EAC 的两种考法（必区分！）</h5>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:13px; margin-bottom:12px;">
+      <div style="background:#e8f5e9;padding:10px;border-radius:6px;">
+        <strong>非典型偏差</strong>（当下的问题是特例，以后不会再有）<br>
+        <code style="font-size:16px;color:#d32f2f;">EAC = AC + (BAC − EV)</code><br>
+        <span style="color:#888;">= 已花的 + 剩余按原计划的价值</span>
+      </div>
+      <div style="background:#fff3e0;padding:10px;border-radius:6px;">
+        <strong>典型偏差</strong>（当下的趋势会持续到项目结束）<br>
+        <code style="font-size:16px;color:#d32f2f;">EAC = BAC / CPI</code><br>
+        <span style="color:#888;">= 总预算 ÷ 当前效率指数</span>
+      </div>
+    </div>
+
+    <h5 style="margin:12px 0 4px;">挣值计算例题示范</h5>
+    <div style="background:#fafafa;padding:14px;border-radius:8px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>题目：</strong>某项目总预算 BAC = 100万，工期12周。第8周末检查：PV=64万，EV=54万，AC=68万。问：①当前CV/SV/CPI/SPI是多少？②按当前趋势，EAC为多少？</p>
+      <p style="margin-top:8px;"><strong>解：</strong><br>
+      ① CV = 54−68 = <strong style="color:#d32f2f;">−14万（超支）</strong>；SV = 54−64 = <strong style="color:#d32f2f;">−10万（滞后）</strong><br>
+      &nbsp;&nbsp;&nbsp;CPI = 54/68 = <strong style="color:#d32f2f;">0.79</strong>；SPI = 54/64 = <strong style="color:#d32f2f;">0.84</strong>（都 &lt;1）<br>
+      ② 当前趋势持续 → <strong>典型偏差</strong>：EAC = BAC/CPI = 100/0.79 ≈ <strong style="color:#d32f2f;">126.6万</strong><br>
+      &nbsp;&nbsp;&nbsp;ETC = 126.6−68 = 58.6万（剩余工作还需要58.6万）</p>
+    </div>
+
+    <!-- 关键路径 -->
+    <h4 style="color:#e67e22;margin:20px 0 8px;">② 关键路径法（CPM）</h4>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; font-size:13px;">
+      <div>
+        <table>
+          <tr><th>缩写</th><th>英文全称</th><th>中文</th><th>公式/含义</th><th>使用场景</th></tr>
+          <tr><td><strong>ES</strong></td><td>Early Start</td><td>最早开始</td><td>正推取max{前驱EF}，起始=0</td><td>正推第一步；确定每个活动最早何时能开始</td></tr>
+          <tr><td><strong>EF</strong></td><td>Early Finish</td><td>最早结束</td><td>ES + 工期</td><td>正推结果；最后一个活动的EF = 总工期</td></tr>
+          <tr><td><strong>LS</strong></td><td>Late Start</td><td>最晚开始</td><td>LF − 工期</td><td>反推结果；确定活动最晚何时必须开始</td></tr>
+          <tr><td><strong>LF</strong></td><td>Late Finish</td><td>最晚结束</td><td>反推取min{后继LS}</td><td>反推第一步；终点的LF=总工期</td></tr>
+          <tr><td><strong>TF</strong></td><td>Total Float</td><td>总时差</td><td>LS−ES 或 LF−EF</td><td><strong>TF=0 就是关键路径</strong>；活动最多可拖多久不影响总工期</td></tr>
+          <tr><td><strong>FF</strong></td><td>Free Float</td><td>自由时差</td><td>min{后继ES}−本活动EF</td><td>不影响紧后活动的最多可拖时间</td></tr>
+        </table>
+      </div>
+      <div style="background:#f8f9ff;padding:10px;border-radius:6px;">
+        <strong>解题口诀：</strong><br>
+        ① 正推（从左到右）→ 求最早开始/结束<br>
+        ② 反推（从右到左）→ 求最晚开始/结束<br>
+        ③ 总时差 = 最晚 − 最早<br>
+        ④ 总时差=0 的就是关键路径<br>
+        ⑤ 总工期 = 关键路径上最后一个活动的最早结束
+      </div>
+    </div>
+
+    <!-- PERT -->
+    <h4 style="color:#e67e22;margin:20px 0 8px;">③ PERT 三点估算</h4>
+    <table>
+      <tr><th>缩写</th><th>英文全称</th><th>中文</th><th>公式</th><th>使用场景</th></tr>
+      <tr><td><strong>O</strong></td><td>Optimistic Time</td><td>乐观时间</td><td>—（题目给）</td><td>一切顺利时的最短工期</td></tr>
+      <tr><td><strong>M</strong></td><td>Most Likely Time</td><td>最可能时间</td><td>—（题目给）</td><td>正常情况下的工期估计</td></tr>
+      <tr><td><strong>P</strong></td><td>Pessimistic Time</td><td>悲观时间</td><td>—（题目给）</td><td>最不利情况下的最长工期</td></tr>
+      <tr><td><strong>t</strong></td><td>Expected Time</td><td>期望时间</td><td>(O + 4M + P) / 6</td><td>加权平均后的最靠谱工期估计</td></tr>
+      <tr><td><strong>σ</strong></td><td>Standard Deviation</td><td>标准差</td><td>(P − O) / 6</td><td>衡量不确定性；σ越小估算越准</td></tr>
+      <tr><td><strong>σ²</strong></td><td>Variance</td><td>方差</td><td>[(P − O) / 6]²</td><td>多活动求和时<strong>方差可加，σ不可直接加</strong></td></tr>
+    </table>
+    <div style="background:#fafafa;padding:10px;border-radius:6px;font-size:13px;margin-top:8px;border:1px solid #e0e0e0;">
+      <strong>速算示例：</strong>某活动 O=3天，M=5天，P=13天 → 期望=(3+20+13)/6=<strong>6天</strong>，σ=(13-3)/6≈<strong>1.67天</strong><br>
+      <strong>概率：</strong>1σ=68.26% | 2σ=95.46% | 3σ=99.73%（如果考到，题目会给正态分布表）
+    </div>
+
+    <!-- 工期压缩 -->
+    <h4 style="color:#e67e22;margin:20px 0 8px;">④ 工期压缩（Schedule Compression）</h4>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:13px;">
+      <div style="background:#f8f9ff;padding:10px;border-radius:6px;">
+        <strong>赶工（Crashing）</strong><br>
+        = 增加资源，缩短工期<br>
+        → 成本增加<br>
+        → 只在关键路径上赶工才有效<br>
+        → 考法：给成本斜率表，选代价最小的压缩方案
+      </div>
+      <div style="background:#f8f9ff;padding:10px;border-radius:6px;">
+        <strong>快速跟进（Fast Tracking）</strong><br>
+        = 把串行活动改为并行<br>
+        → 风险增加<br>
+        → 可能返工<br>
+        → 不增加资源的情况下缩短工期
+      </div>
+    </div>
+
+    <p style="margin-top:12px;background:#fff8e1;padding:10px;border-radius:6px;font-size:13px;">
+      <strong>计算题训练方法：</strong>每天做2道真题计算，<strong>不看答案，手算完再对</strong>。5天做10道，计算稳了。做完第1遍如果还错，间隔2天再做一遍。
+    </p>
+
+    <!-- ===== 简答题 ===== -->
+    <h3 style="background:#e0f0ff;display:inline-block;padding:4px 12px;border-radius:4px;margin-top:8px;">📝 简答题——背模板，踩得分点</h3>
+
+    <!-- 变更管理 -->
+    <h4 style="color:#1565c0;margin:16px 0 8px;">① 变更管理8步流程（必考！关键缩写：CCB — Change Control Board 变更控制委员会）</h4>
+    <div style="background:#e8eaf6;padding:14px;border-radius:8px;margin-bottom:12px;">
+      <table>
+        <tr><th>步骤</th><th>内容</th><th>踩分关键词</th></tr>
+        <tr><td>①</td><td><strong>提交变更申请</strong></td><td>变更请求、书面记录</td></tr>
+        <tr><td>②</td><td><strong>初审变更可行性</strong></td><td>项目经理初审、评估影响</td></tr>
+        <tr><td>③</td><td><strong>CCB审批变更</strong></td><td>变更控制委员会、决策批准</td></tr>
+        <tr><td>④</td><td><strong>通知干系人</strong></td><td>传达审批结果、变更范围</td></tr>
+        <tr><td>⑤</td><td><strong>执行变更</strong></td><td>实施变更、更新计划</td></tr>
+        <tr><td>⑥</td><td><strong>跟踪执行情况</strong></td><td>监控变更效果、记录偏差</td></tr>
+        <tr><td>⑦</td><td><strong>记录存档</strong></td><td>更新变更日志、版本管理</td></tr>
+        <tr><td>⑧</td><td><strong>评价变更效果</strong></td><td>评估变更是否解决原问题</td></tr>
+      </table>
+    </div>
+
+    <p style="font-size:13px;color:#888;margin-top:-8px;margin-bottom:12px;">
+      <strong>考题标志：</strong>只要题干出现"客户要求加需求""范围蔓延""项目超支"→ 就往变更管理不规范上靠，先写变更流程再说原因。
+    </p>
+
+    <!-- 风险管理 -->
+    <h4 style="color:#1565c0;margin:16px 0 8px;">② 风险管理7步骤（关键缩写：RBS—Risk Breakdown Structure 风险分解结构，EMV—Expected Monetary Value 预期货币价值）</h4>
+    <div style="background:#e8eaf6;padding:14px;border-radius:8px;margin-bottom:12px;">
+      <table>
+        <tr><th>步骤</th><th>内容</th><th>踩分关键词</th></tr>
+        <tr><td>①</td><td><strong>规划风险管理</strong></td><td>风险管理计划、概率/影响矩阵</td></tr>
+        <tr><td>②</td><td><strong>识别风险</strong></td><td>风险分解结构(RBS)、头脑风暴、德尔菲法</td></tr>
+        <tr><td>③</td><td><strong>定性风险分析</strong></td><td>概率影响矩阵、风险排序</td></tr>
+        <tr><td>④</td><td><strong>定量风险分析</strong></td><td>EMV（预期货币价值）、敏感性分析</td></tr>
+        <tr><td>⑤</td><td><strong>规划风险应对</strong></td><td>规避/转移/减轻/接受（4种策略必背）</td></tr>
+        <tr><td>⑥</td><td><strong>实施风险应对</strong></td><td>落实应对措施</td></tr>
+        <tr><td>⑦</td><td><strong>监督风险</strong></td><td>风险审计、风险再评估、储备分析</td></tr>
+      </table>
+    </div>
+
+    <h5 style="margin:8px 0 4px;">风险应对4种策略（必背！）</h5>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:8px; font-size:12px; margin-bottom:12px;">
+      <div style="background:#ffebee;padding:8px;border-radius:4px;"><strong>规避</strong><br>消除威胁，如：换技术方案、取消高风险任务</div>
+      <div style="background:#fff3e0;padding:8px;border-radius:4px;"><strong>转移</strong><br>转给第三方，如：保险、外包、合同转移</div>
+      <div style="background:#e8f5e9;padding:8px;border-radius:4px;"><strong>减轻</strong><br>降低概率或影响，如：多轮测试、冗余设计</div>
+      <div style="background:#e3f2fd;padding:8px;border-radius:4px;"><strong>接受</strong><br>主动（留应急储备）或被动（不管）</div>
+    </div>
+
+    <!-- 万能故障分析 -->
+    <h4 style="color:#1565c0;margin:16px 0 8px;">③ 万能故障分析——项目出问题了从哪排查</h4>
+    <div style="background:#e8eaf6;padding:14px;border-radius:8px;margin-bottom:12px;">
+      <table>
+        <tr><th>维度</th><th>典型问题</th><th>排查方向</th></tr>
+        <tr><td><strong>人</strong></td><td>人手不够、能力不足、关键人员离职</td><td>团队配置是否合理？技能缺口在哪？</td></tr>
+        <tr><td><strong>流程</strong></td><td>变更不规范、审批绕过、WBS不完整</td><td>变更管理是否到位？计划是否被严格执行？</td></tr>
+        <tr><td><strong>技术</strong></td><td>技术方案不可行、工具不匹配</td><td>技术评审是否充分？可行性论证到位吗？</td></tr>
+        <tr><td><strong>沟通</strong></td><td>信息不对称、干系人期望未对齐</td><td>沟通计划执行了吗？干系人都收到信息了吗？</td></tr>
+        <tr><td><strong>质量</strong></td><td>返工多、缺陷率高、验收不通过</td><td>质量控制在哪里失效了？质量指标设对吗？</td></tr>
+      </table>
+    </div>
+    <p style="font-size:13px;color:#888;margin-top:-8px;">
+      <strong>用法：</strong>案例题问"项目为什么出问题？"，直接从这5个维度个个排查，至少命中3个踩分点。
+    </p>
+
+    <!-- 其他高频简答 -->
+    <h4 style="color:#1565c0;margin:20px 0 8px;">④ 其他高频简答题考点</h4>
+    <table>
+      <tr><th>考点</th><th>核心答案</th></tr>
+      <tr>
+        <td><strong>质量保证 vs 质量控制</strong></td>
+        <td>
+          质量保证（管理质量）= 关注过程，执行过程组 → 确保在做正确的事<br>
+          质量控制 = 关注结果，监控过程组 → 确保事情做得正确
+        </td>
+      </tr>
+      <tr>
+        <td><strong>团队建设5阶段</strong></td>
+        <td>形成(Forming) → 震荡(Storming) → 规范(Norming) → 成熟(Performing) → 解散(Adjourning)</td>
+      </tr>
+      <tr>
+        <td><strong>冲突管理策略</strong></td>
+        <td>解决/合作 &gt; 妥协 &gt; 缓和/包容 &gt; 撤退/回避 &gt; 强制/命令（优先级从高到低）</td>
+      </tr>
+      <tr>
+        <td><strong>范围确认 vs 范围控制</strong></td>
+        <td>确认范围（Validate Scope）= 客户正式验收可交付成果<br>控制范围（Control Scope）= 防止范围蔓延，管理范围基准变更</td>
+      </tr>
+      <tr>
+        <td><strong>沟通渠道公式</strong></td>
+        <td>沟通渠道数 = n×(n−1)/2（n=干系人数量，包括项目经理）</td>
+      </tr>
+      <tr>
+        <td><strong>自制或外购分析</strong></td>
+        <td>自制成本 &lt; 外购成本 → 自制；考虑直接成本+间接成本+机会成本</td>
+      </tr>
+    </table>
+
+    <p style="margin-top:14px;background:#e8f5e9;padding:12px;border-radius:8px;font-size:13px;">
+      <strong>简答题训练方法：</strong>刷5套案例真题。不要手写完整答案——<strong>看完题，脑中列踩分点关键词，然后对答案看漏了哪些点</strong>。刷完5套你会发现翻来覆去就那几个套路。每道题控制在10-15分钟。
+    </p>
+
+    <p style="margin-top:8px;background:#fff8e1;padding:10px;border-radius:6px;font-size:13px;">
+      <strong>D7-11 每日安排回顾：</strong>做1道计算题（手算）+ 1道案例题（列踩分点→对答案）→ 背49过程和英文15分钟 → 翻看本页核心考点30分钟
+    </p>
+  </div>
+
+  <!-- WBS 专题 -->
+  <div class="card">
+    <h2>WBS 工作分解结构（专题详解）</h2>
+
+    <h3>一、WBS 是什么？</h3>
+    <div style="background:#f0f5ff;padding:14px;border-radius:8px;margin-bottom:14px;">
+      <p><strong>WBS（Work Breakdown Structure，工作分解结构）</strong>是把项目可交付成果和项目工作<strong>逐层分解成更小、更易于管理</strong>的组件的过程。</p>
+      <p style="margin-top:6px;">WBS 是范围管理的<strong>核心输出</strong>，是后续进度计划、成本估算、资源分配、风险识别的基础——所有计划都建立在 WBS 之上。</p>
+    </div>
+
+    <h3>二、创建 WBS 的 5 个步骤（案例必背）</h3>
+    <table>
+      <tr><th style="width:60px;">步骤</th><th>内容</th><th style="width:180px;">考试踩分点</th></tr>
+      <tr>
+        <td><strong>①</strong></td>
+        <td><strong>识别和分析可交付成果</strong>及相关工作</td>
+        <td>依据范围说明书、需求文件</td>
+      </tr>
+      <tr>
+        <td><strong>②</strong></td>
+        <td><strong>确定 WBS 的结构</strong>和编排方法</td>
+        <td>按阶段/按可交付成果/按子项目</td>
+      </tr>
+      <tr>
+        <td><strong>③</strong></td>
+        <td><strong>自上而下逐层细化分解</strong></td>
+        <td>"直到工作包层级"</td>
+      </tr>
+      <tr>
+        <td><strong>④</strong></td>
+        <td>为 WBS 组件<strong>分配标识编码</strong></td>
+        <td>账户编码（Code of Accounts）</td>
+      </tr>
+      <tr>
+        <td><strong>⑤</strong></td>
+        <td><strong>核实分解程度</strong>是否适当</td>
+        <td>工作包清晰、可估算、可分配</td>
+      </tr>
+    </table>
+    <p style="margin-top:8px;font-size:13px;color:#888;">
+      <strong>口诀：</strong>识别→定结构→逐层分解→编标识码→核实程度（识-定-分-编-核）
+    </p>
+
+    <h3>三、WBS 的分解原则（100%规则 + 8-80规则）</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:13px;">
+      <div style="background:#e8f5e9;padding:12px;border-radius:6px;">
+        <strong>① 100%规则</strong><br>
+        WBS 中下一层所有工作的总和<strong>100%等于</strong>上一层的工作。不能多，不能少。确保 WBS 不会有遗漏或多余的工作。
+      </div>
+      <div style="background:#e8f5e9;padding:12px;border-radius:6px;">
+        <strong>② 8-80规则</strong><br>
+        每个工作包的工作量建议在<strong>8~80小时</strong>之间。太小管理成本过高，太大则难以准确估算和控制。
+      </div>
+      <div style="background:#fff3e0;padding:12px;border-radius:6px;">
+        <strong>③ 分解到工作包层</strong><br>
+        工作包是 WBS 的<strong>最底层</strong>，应满足：可估算成本、可安排进度、可分配责任人、可衡量完成标准。不能再往下分解。
+      </div>
+      <div style="background:#fff3e0;padding:12px;border-radius:6px;">
+        <strong>④ 每层单一责任人</strong><br>
+        每个 WBS 组件<strong>有且只有一个人</strong>对其负责。防止职责不清、互相推诿。
+      </div>
+      <div style="background:#fce4ec;padding:12px;border-radius:6px;">
+        <strong>⑤ 不存在相同层级交叉</strong><br>
+        不同分支的分解标准可以不同，但<strong>同一分支同一层级</strong>必须采用相同的分解标准。
+      </div>
+      <div style="background:#fce4ec;padding:12px;border-radius:6px;">
+        <strong>⑥ 管理活动也要纳入</strong><br>
+        WBS 不仅包含产品/技术工作，<strong>项目管理活动</strong>（如项目管理、培训、验收）也必须包含。
+      </div>
+    </div>
+
+    <h3>四、WBS 的两种表现形式</h3>
+    <table>
+      <tr><th>形式</th><th>特点</th><th>适用场景</th></tr>
+      <tr>
+        <td><strong>树形结构（组织结构图式）</strong></td>
+        <td>层次清晰、直观，但层级多了写不下</td>
+        <td>中小型项目、PPT汇报、论文中画</td>
+      </tr>
+      <tr>
+        <td><strong>缩进表（列表式）</strong></td>
+        <td>用缩进表示层级关系，文字形式，节省空间</td>
+        <td>大型复杂项目、WBS词典配套</td>
+      </tr>
+    </table>
+
+    <h3>五、WBS 词典（WBS Dictionary）</h3>
+    <p style="font-size:13px;margin-bottom:10px;">WBS 词典是配套 WBS 的说明文件，<strong>描述每个 WBS 组件的详细信息</strong>。没有 WBS 词典，光有 WBS 分解图等于白做。</p>
+    <table>
+      <tr><th>词典包含内容</th><th>说明</th></tr>
+      <tr><td>账户编码</td><td>WBS 编号，唯一标识</td></tr>
+      <tr><td>工作包描述</td><td>这个工作包做什么、不做什么</td></tr>
+      <tr><td>可交付成果</td><td>完成后的产物是什么</td></tr>
+      <tr><td>验收标准</td><td>怎样算"做完"</td></tr>
+      <tr><td>负责组织/人</td><td>谁负责这个工作包</td></tr>
+      <tr><td>估算资源与成本</td><td>需要多少人力/资金</td></tr>
+      <tr><td>进度里程碑</td><td>关键时间节点</td></tr>
+      <tr><td>关联活动</td><td>对应进度计划中的哪些活动</td></tr>
+    </table>
+
+    <h3>六、WBS 在"范围基准"中的位置</h3>
+    <div style="background:#f3e5f5;padding:14px;border-radius:8px;margin-bottom:14px;">
+      <p><strong>范围基准 = 范围说明书 + WBS + WBS 词典</strong></p>
+      <p style="margin-top:6px;font-size:13px;">这三个文件合在一起才构成完整的<strong>范围基准（Scope Baseline）</strong>。考试中问到"范围基准包括什么？"，必须答出这三个。控制范围时，就是把实际执行情况和范围基准做对比。</p>
+    </div>
+
+    <h3>七、案例考试常见踩分点</h3>
+    <table>
+      <tr><th style="width:180px;">常见问题</th><th style="width:180px;">踩分点（关键句）</th><th>解释</th></tr>
+      <tr>
+        <td>WBS 谁来做？</td>
+        <td><strong>项目团队共同参与</strong>，不是项目经理一个人做</td>
+        <td>项目经理独自编写 = 错误做法，案例扣分点</td>
+      </tr>
+      <tr>
+        <td>WBS 缺了什么？</td>
+        <td><strong>缺少 WBS 词典</strong></td>
+        <td>只有分解图没有词典，工作包含义不清楚</td>
+      </tr>
+      <tr>
+        <td>范围蔓延/镀金</td>
+        <td><strong>未按 WBS 执行，擅自增加功能</strong></td>
+        <td>开发人员自己加功能=镀金，应走变更流程</td>
+      </tr>
+      <tr>
+        <td>范围失控</td>
+        <td><strong>WBS 分解不到位</strong>，工作包太大太粗</td>
+        <td>无法估算、无法分配责任</td>
+      </tr>
+      <tr>
+        <td>遗漏工作</td>
+        <td><strong>WBS 没有 100%覆盖</strong>所有可交付成果</td>
+        <td>忘了管理活动、培训、验收等"软"工作</td>
+      </tr>
+      <tr>
+        <td>需求变了怎么管？</td>
+        <td><strong>先走变更流程 → 更新 WBS → 更新范围基准</strong></td>
+        <td>不能直接改 WBS，必须通过整体变更控制</td>
+      </tr>
+    </table>
+
+    <div style="background:#fff8e1;padding:12px;border-radius:8px;margin-top:14px;">
+      <strong>⭐ 万能答题句式：</strong>"创建WBS时，应依据范围说明书和需求文件，由项目团队共同参与，采用自上而下的方法逐层分解到工作包层级，为每个组件分配唯一编码，并编制WBS词典。WBS+WBS词典+范围说明书共同构成范围基准，作为后续进度、成本、质量、风险计划的依据。"
+    </div>
+  </div>
+
+  <!-- 论文 -->
+  <div class="card">
+    <h2>D12-13：论文（目标45+）</h2>
+
+    <h3>为什么这样安排</h3>
+    <p style="background:#f8f9ff;padding:12px;border-radius:8px;margin-bottom:12px;">
+      论文<strong>不是考文采，是考你是不是真正做过项目</strong>。阅卷老师看三点：管理流程是否完整、工具技术是否有具体细节、问题是否有对策。论文靠短期记忆保分，放最后趁热上考场。
+    </p>
+
+    <h3>论文骨架（所有论文用同一个项目）</h3>
+    <table>
+      <tr><th>部分</th><th>字数</th><th>内容</th><th>关键要素</th></tr>
+      <tr>
+        <td>背景介绍</td><td>~300字</td>
+        <td>项目名称、投资规模、工期、你在其中的角色、项目目标</td>
+        <td>提前编好一个<strong>"信息化平台建设项目"</strong>故事，所有论文通用</td>
+      </tr>
+      <tr>
+        <td>主体：规划过程</td><td>~400字</td>
+        <td>该知识域你是怎么规划的？用了什么工具方法？WBS/网络图/风险分解结构等</td>
+        <td>至少提到2-3个<strong>具体工具名称</strong>，给阅卷老师"做过"的信号</td>
+      </tr>
+      <tr>
+        <td>主体：执行过程</td><td>~400字</td>
+        <td>如何按计划执行？遇到什么问题？怎么解决的？</td>
+        <td>必须有<strong>具体问题+解决措施</strong>，这是区分"背的"和"做过的"</td>
+      </tr>
+      <tr>
+        <td>主体：监控过程</td><td>~400字</td>
+        <td>如何监控偏差？用了什么控制方法？</td>
+        <td>挣值分析、偏差分析等<strong>量化手段</strong></td>
+      </tr>
+      <tr>
+        <td>问题与反思</td><td>~300字</td>
+        <td>项目中的2-3个教训+你的反思</td>
+        <td>每个问题都要有<strong>原因+对策</strong>，不要只说问题不给方案</td>
+      </tr>
+      <tr>
+        <td>结尾</td><td>~200字</td>
+        <td>项目成果+经验总结</td>
+        <td>点题，呼应知识域主题</td>
+      </tr>
+    </table>
+
+    <h3>优先准备3篇范文骨架（最高频）</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; font-size:13px;">
+      <div style="background:#f0f5ff;padding:12px;border-radius:6px;">
+        <strong>① 范围管理</strong><br>
+        规划范围→收集需求→定义范围→创建WBS→确认范围→控制范围<br>
+        <span style="color:#888;">重点写：WBS怎么分解、范围基准怎么定</span>
+      </div>
+      <div style="background:#f0f5ff;padding:12px;border-radius:6px;">
+        <strong>② 质量管理</strong><br>
+        规划质量→管理质量→控制质量<br>
+        <span style="color:#888;">重点写：质量测量指标、质量审计、不合格项处理</span>
+      </div>
+      <div style="background:#f0f5ff;padding:12px;border-radius:6px;">
+        <strong>③ 风险管理</strong><br>
+        规划风险→识别风险→定性/定量分析→规划应对→实施应对→监督风险<br>
+        <span style="color:#888;">重点写：风险分解结构(RBS)、具体应对策略（规避/转移/减轻/接受）</span>
+      </div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;color:#888;">
+      <strong>方法：</strong>每篇骨架抄3遍（不是全文默写，是骨架段关键句+过程名顺序）。手写1-2篇全文练速度，控制2500字/2小时。考场上论文选题时，优先选你背过骨架的领域。
+    </p>
+  </div>
+
+  <!-- 收尾 -->
+  <div class="card">
+    <h2>D14-15：收尾</h2>
+    <p style="background:#f8f9ff;padding:12px;border-radius:8px;">
+      <strong>不再做新题，不做新事。</strong>只做三件事：① 翻所有错题（尤其选择题常错的知识点）；② 背一遍49过程口诀；③ 默念3篇论文骨架。保持节奏，别熬夜，考前一天正常休息。
+    </p>
+  </div>
+
+  <!-- 49过程 -->
+  <div class="card">
+    <h2>49个过程（按过程组记忆）</h2>
+
+    <div class="process-group">
+      <h3 class="pg-init">启动过程组（2个）</h3>
+      <table>
+        <tr><th>编号</th><th>过程</th><th>知识域</th><th>口诀</th></tr>
+        <tr><td>1</td><td>制定项目章程</td><td>整合</td><td>整章</td></tr>
+        <tr><td>2</td><td>识别干系人</td><td>干系人</td><td>识人</td></tr>
+      </table>
+    </div>
+
+    <div class="process-group">
+      <h3 class="pg-plan">规划过程组（24个）</h3>
+      <table>
+        <tr><th>编号</th><th>知识域</th><th>过程</th><th>口诀</th></tr>
+        <tr><td>3</td><td>整合</td><td>制订项目管理计划</td><td>整计</td></tr>
+        <tr><td>4</td><td>范围</td><td>规划范围管理</td><td rowspan="4">范围四连：<br>规收定W</td></tr>
+        <tr><td>5</td><td>范围</td><td>收集需求</td></tr>
+        <tr><td>6</td><td>范围</td><td>定义范围</td></tr>
+        <tr><td>7</td><td>范围</td><td>创建WBS</td></tr>
+        <tr><td>8</td><td>进度</td><td>规划进度管理</td><td rowspan="5">进五连：<br>规定排估计</td></tr>
+        <tr><td>9</td><td>进度</td><td>定义活动</td></tr>
+        <tr><td>10</td><td>进度</td><td>排列活动顺序</td></tr>
+        <tr><td>11</td><td>进度</td><td>估算活动持续时间</td></tr>
+        <tr><td>12</td><td>进度</td><td>制订进度计划</td></tr>
+        <tr><td>13</td><td>成本</td><td>规划成本管理</td><td rowspan="3">成三连：<br>规估算</td></tr>
+        <tr><td>14</td><td>成本</td><td>估算成本</td></tr>
+        <tr><td>15</td><td>成本</td><td>制定预算</td></tr>
+        <tr><td>16</td><td>质量</td><td>规划质量管理</td><td>质规</td></tr>
+        <tr><td>17</td><td>资源</td><td>规划资源管理</td><td rowspan="2">资双连：<br>规估</td></tr>
+        <tr><td>18</td><td>资源</td><td>估算活动资源</td></tr>
+        <tr><td>19</td><td>沟通</td><td>规划沟通管理</td><td>沟规</td></tr>
+        <tr><td>20</td><td>风险</td><td>规划风险管理</td><td rowspan="5">风五连：<br>规识性定应</td></tr>
+        <tr><td>21</td><td>风险</td><td>识别风险</td></tr>
+        <tr><td>22</td><td>风险</td><td>实施定性风险分析</td></tr>
+        <tr><td>23</td><td>风险</td><td>实施定量风险分析</td></tr>
+        <tr><td>24</td><td>风险</td><td>规划风险应对</td></tr>
+        <tr><td>25</td><td>采购</td><td>规划采购管理</td><td>采规</td></tr>
+        <tr><td>26</td><td>干系人</td><td>规划干系人参与</td><td>干规</td></tr>
+      </table>
+    </div>
+
+    <div class="process-group">
+      <h3 class="pg-exec">执行过程组（10个）</h3>
+      <table>
+        <tr><th>编号</th><th>知识域</th><th>过程</th><th>口诀</th></tr>
+        <tr><td>27</td><td>整合</td><td>指导与管理项目工作</td><td>指导</td></tr>
+        <tr><td>28</td><td>整合</td><td>管理项目知识</td><td>管知</td></tr>
+        <tr><td>29</td><td>质量</td><td>管理质量</td><td>质管</td></tr>
+        <tr><td>30</td><td>资源</td><td>获取资源</td><td rowspan="3">资三连：<br>获取+建设+管理</td></tr>
+        <tr><td>31</td><td>资源</td><td>建设团队</td></tr>
+        <tr><td>32</td><td>资源</td><td>管理团队</td></tr>
+        <tr><td>33</td><td>沟通</td><td>管理沟通</td><td>沟管</td></tr>
+        <tr><td>34</td><td>风险</td><td>实施风险应对</td><td>风施</td></tr>
+        <tr><td>35</td><td>采购</td><td>实施采购</td><td>采施</td></tr>
+        <tr><td>36</td><td>干系人</td><td>管理干系人参与</td><td>干管</td></tr>
+      </table>
+    </div>
+
+    <div class="process-group">
+      <h3 class="pg-monitor">监控过程组（12个）</h3>
+      <table>
+        <tr><th>编号</th><th>知识域</th><th>过程</th><th>口诀</th></tr>
+        <tr><td>37</td><td>整合</td><td>监控项目工作</td><td>监工</td></tr>
+        <tr><td>38</td><td>整合</td><td>实施整体变更控制</td><td>变控</td></tr>
+        <tr><td>39</td><td>范围</td><td>确认范围</td><td rowspan="2">范监：确认+控制</td></tr>
+        <tr><td>40</td><td>范围</td><td>控制范围</td></tr>
+        <tr><td>41</td><td>进度</td><td>控制进度</td><td>进控</td></tr>
+        <tr><td>42</td><td>成本</td><td>控制成本</td><td>成控</td></tr>
+        <tr><td>43</td><td>质量</td><td>控制质量</td><td>质控</td></tr>
+        <tr><td>44</td><td>资源</td><td>控制资源</td><td>资控</td></tr>
+        <tr><td>45</td><td>沟通</td><td>监督沟通</td><td>沟监</td></tr>
+        <tr><td>46</td><td>风险</td><td>监督风险</td><td>风监</td></tr>
+        <tr><td>47</td><td>采购</td><td>控制采购</td><td>采控</td></tr>
+        <tr><td>48</td><td>干系人</td><td>监督干系人参与</td><td>干监</td></tr>
+      </table>
+    </div>
+
+    <div class="process-group">
+      <h3 class="pg-close">收尾过程组（1个）</h3>
+      <table>
+        <tr><th>编号</th><th>过程</th><th>知识域</th><th>口诀</th></tr>
+        <tr><td>49</td><td>结束项目或阶段</td><td>整合</td><td>整结</td></tr>
+      </table>
+    </div>
+
+    <div style="background:#f8f9ff;padding:16px;border-radius:8px;margin-top:16px;">
+      <strong>📝 顺口溜：</strong><br>
+      启动：整章+识人（2）<br>
+      规划：整计，范围（规收定W），进度（规定排估计），成本（规估算），质规，资源（规估），沟规，风险（规识性定应），采规，干规（24）<br>
+      执行：指导+管知，质管，资源（获取建设管理），沟管，风施，采施，干管（10）<br>
+      监控：整（监工+变控），范围（确认控制），进控，成控，质控，资控，沟监，风监，采控，干监（12）<br>
+      收尾：整结（1）
+    </div>
+  </div>
+
+  <!-- 英文 -->
+  <div class="card">
+    <h2>英文题速记（最后5题满分）</h2>
+
+    <h3>🔴 挣值公式（最高频，必考）</h3>
+    <table>
+      <tr><th>缩写</th><th>英文全称</th><th>中文</th></tr>
+      <tr><td>EV</td><td>Earned Value</td><td>挣值</td></tr>
+      <tr><td>PV</td><td>Planned Value</td><td>计划价值</td></tr>
+      <tr><td>AC</td><td>Actual Cost</td><td>实际成本</td></tr>
+      <tr><td>BAC</td><td>Budget at Completion</td><td>完工预算</td></tr>
+      <tr><td>EAC</td><td>Estimate at Completion</td><td>完工估算</td></tr>
+      <tr><td>ETC</td><td>Estimate to Complete</td><td>完工尚需估算</td></tr>
+      <tr><td>CV</td><td>Cost Variance</td><td>成本偏差</td></tr>
+      <tr><td>SV</td><td>Schedule Variance</td><td>进度偏差</td></tr>
+      <tr><td>CPI</td><td>Cost Performance Index</td><td>成本绩效指数</td></tr>
+      <tr><td>SPI</td><td>Schedule Performance Index</td><td>进度绩效指数</td></tr>
+    </table>
+
+    <h3>🟡 技术方法</h3>
+    <table>
+      <tr><th>缩写</th><th>英文全称</th><th>中文</th></tr>
+      <tr><td>WBS</td><td>Work Breakdown Structure</td><td>工作分解结构</td></tr>
+      <tr><td>CPM</td><td>Critical Path Method</td><td>关键路径法</td></tr>
+      <tr><td>PERT</td><td>Program Evaluation and Review Technique</td><td>计划评审技术</td></tr>
+      <tr><td>NPV</td><td>Net Present Value</td><td>净现值</td></tr>
+      <tr><td>ROI</td><td>Return on Investment</td><td>投资回报率</td></tr>
+      <tr><td>OBS</td><td>Organizational Breakdown Structure</td><td>组织分解结构</td></tr>
+      <tr><td>RBS</td><td>Risk Breakdown Structure</td><td>风险分解结构</td></tr>
+      <tr><td>RAM</td><td>Responsibility Assignment Matrix</td><td>责任分配矩阵</td></tr>
+    </table>
+
+    <h3>🟡 质量管理</h3>
+    <table>
+      <tr><th>缩写</th><th>英文全称</th><th>中文</th></tr>
+      <tr><td>PDCA</td><td>Plan-Do-Check-Act</td><td>戴明环</td></tr>
+      <tr><td>TQM</td><td>Total Quality Management</td><td>全面质量管理</td></tr>
+      <tr><td>SPC</td><td>Statistical Process Control</td><td>统计过程控制</td></tr>
+      <tr><td>Six Sigma</td><td>Six Sigma</td><td>六西格玛</td></tr>
+    </table>
+
+    <h3>🟡 合同类型</h3>
+    <table>
+      <tr><th>缩写</th><th>英文全称</th><th>中文</th></tr>
+      <tr><td>FFP</td><td>Firm Fixed Price</td><td>固定总价合同</td></tr>
+      <tr><td>CPIF</td><td>Cost Plus Incentive Fee</td><td>成本加激励费用</td></tr>
+      <tr><td>CPFF</td><td>Cost Plus Fixed Fee</td><td>成本加固定费用</td></tr>
+      <tr><td>T&M</td><td>Time and Materials</td><td>工料合同</td></tr>
+    </table>
+
+    <h3>🟢 其他常考</h3>
+    <table>
+      <tr><th>缩写</th><th>英文全称</th><th>中文</th></tr>
+      <tr><td>PMBOK</td><td>Project Management Body of Knowledge</td><td>项目管理知识体系</td></tr>
+      <tr><td>PMO</td><td>Project Management Office</td><td>项目管理办公室</td></tr>
+      <tr><td>PMP</td><td>Project Management Professional</td><td>项目管理专业人士</td></tr>
+      <tr><td>SOW</td><td>Statement of Work</td><td>工作说明书</td></tr>
+      <tr><td>RFC</td><td>Request for Change</td><td>变更请求</td></tr>
+      <tr><td>CCB</td><td>Change Control Board</td><td>变更控制委员会</td></tr>
+      <tr><td>CRM</td><td>Customer Relationship Management</td><td>客户关系管理</td></tr>
+      <tr><td>ERP</td><td>Enterprise Resource Planning</td><td>企业资源计划</td></tr>
+    </table>
+
+    <div style="background:#fff8e1;padding:12px;border-radius:8px;margin-top:12px;">
+      <strong>⭐ 记忆优先级：</strong>先背挣值10个（覆盖率最高）→ 再背WBS/CPM/PERT → 最后扫一眼合同类型
+    </div>
+  </div>
+
+  <!-- ===== 近5年真题 ===== -->
+  <div class="card">
+    <h2>近5年案例分析真题精选（2021-2025）</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:16px;">以下为近年高频考题，重点练习计算题（每题手算一遍），简答题看踩分点即可。</p>
+
+    <!-- 2025上 -->
+    <h3 style="background:#ffebee;display:inline-block;padding:4px 12px;border-radius:4px;">2025年上半年</h3>
+
+    <h4 style="color:#e67e22;margin:12px 0 8px;">【计算题】进度管理 — 单代号网络图 + 博弈论</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>医疗大数据公司研发糖尿病风险预测系统，含供应商博弈矩阵。</p>
+      <p><strong>问题1（9分）：</strong>绘制单代号网络图，求关键路径及总工期。<br>
+      <span style="color:#1565c0;"><strong>答案：</strong>关键路径 A-B-F 和 A-D-E-F，工期 <strong>13周</strong></span></p>
+      <p><strong>问题2（8分）：</strong>人员安排计划表（资源平衡）。</p>
+      <p><strong>问题3（8分）：</strong>博弈矩阵，求双方最优策略及均衡结果。<br>
+      <span style="color:#1565c0;"><strong>答案：</strong>(S2, T2)，均衡结果 (2, 1) 万元</span></p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 8px;">【简答题】范围管理 + 风险管理</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>供应链金融项目，区块链技术开发。</p>
+      <p><strong>问题1：</strong>活动归属过程（范围管理/风险管理各过程）。<br>
+      <strong>答：</strong>规划范围管理→编制范围管理计划；收集需求→需求文件；定义范围→范围说明书；创建WBS→WBS+WBS词典；规划风险管理→风险管理计划；识别风险→风险登记册</p>
+      <p><strong>问题2：</strong>设计风险登记册。<br>
+      <strong>答：</strong>风险编号、风险描述、风险类别、概率、影响、风险等级、应对策略、责任人、状态</p>
+      <p><strong>问题3：</strong>风险应对措施分类（规避/转移/减轻/接受）。</p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 8px;">【简答题】范围+风险+采购管理（第2批次）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>A公司中标医疗集团智慧信息化项目，外包给B公司。</p>
+      <p><strong>问题1（6分）：</strong>从范围管理与风险管理角度给出改进措施。<br>
+      <strong>答：</strong>范围管理：重新确认需求、编制WBS、确认范围、控制范围变更；风险管理：重新识别风险、制定应对措施、持续监督风险</p>
+      <p><strong>问题2（6分）：</strong>三个整改措施各属哪种风险应对？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>减轻、减轻、转移</span></p>
+      <p><strong>问题3（7分）：</strong>需求跟踪矩阵的作用。<br>
+      <strong>答：</strong>①确保每个需求都有来源和交付物；②跟踪需求状态变化；③评估需求变更影响；④帮助验证最终交付</p>
+      <p><strong>问题4（6分）：</strong>合同争议解决方式依次为？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>协商 → 调解 → 仲裁 → 诉讼</span></p>
+    </div>
+
+    <!-- 2024上 -->
+    <h3 style="background:#ffebee;display:inline-block;padding:4px 12px;border-radius:4px;margin-top:16px;">2024年上半年</h3>
+
+    <h4 style="color:#e67e22;margin:12px 0 8px;">【计算题】进度管理 — 单代号网络图 + 变更</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>某项目包含 ABCDEFGH 共8个活动。</p>
+      <p><strong>问题1：</strong>写出关键路径并计算总工期。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>关键路径 ABEFH，工期 <strong>22周</strong></span></p>
+      <p><strong>问题2：</strong>D和G之间增加活动N（3周），求新关键路径。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>新关键路径 ABDNGH，工期 <strong>24周</strong></span></p>
+      <p><strong>问题3：</strong>两个团队并行能否按时完工？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>可以按新计划完工</span></p>
+    </div>
+
+    <h4 style="color:#e67e22;margin:12px 0 8px;">【计算题】挣值分析（第1批次，高频！）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>项目计划工期10个月，预算210万。第7个月末发现实际完成总计划进度的70%。累计PV=150万，AC=145万。</p>
+      <p><strong>问题1：</strong>哪个月份实际花费最低？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>7月份，5万元</span></p>
+      <p><strong>问题2：</strong>计算 EV、CV、SV。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>EV = 210×70% = <strong>147万</strong>；CV = 147−145 = <strong>2万（节约）</strong>；SV = 147−150 = <strong>−3万（滞后）</strong></span></p>
+      <p><strong>问题3：</strong>评估绩效并给出改进措施。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>成本节约但进度滞后。措施：①赶工（增加资源）②快速跟进（并行施工）③使用高素质资源④减少活动范围⑤改进技术提高效率⑥加强质量管理减少返工</span></p>
+      <p><strong>问题4：</strong>若在第7月末纠正偏差（非典型），计算ETC和EAC。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>ETC = BAC−EV = 210−147 = <strong>63万</strong>；EAC = AC+ETC = 145+63 = <strong>208万</strong></span></p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 8px;">【简答题】质量管理 + 沟通管理</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>金融机构100+项目，引入第三方QA团队。</p>
+      <p><strong>问题1（12分）：</strong>从质量管理和沟通管理角度指出存在的问题。<br>
+      <strong>答：</strong>质量方面：QA职责不清、未建立质量度量标准、质量审计不到位；沟通方面：干系人信息需求不清、未定期报告质量状态、问题升级机制缺失</p>
+      <p><strong>问题2（4分）：</strong>质量管理三个过程及质量报告所属过程。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>(1)规划质量管理 (2)管理质量 (3)控制质量；(4)质量报告属于<strong>管理质量</strong>过程</span></p>
+      <p><strong>问题3（3分）：</strong>沟通方法类型判断。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>(1)推式沟通 (2)拉式沟通 (3)互动沟通</span></p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 8px;">【简答题】采购管理 + 变更管理</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>智慧环境综合治理平台，油烟监测子系统采购S公司设备后出问题。</p>
+      <p><strong>问题1（10分）：</strong>指出采购管理和变更管理方面存在的不足。<br>
+      <strong>答：</strong>采购方面：供应商资质审查不严、合同条款不完整、未做自制或外购分析；变更方面：未走变更流程直接实施、缺乏CCB审批、变更影响未评估</p>
+      <p><strong>问题2（6分）：</strong>写出执行变更管理的工作程序。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>①提交变更申请 ②变更影响分析 ③CCB审批 ④实施变更 ⑤跟踪执行 ⑥验证效果并归档</span></p>
+    </div>
+
+    <!-- 2023上 -->
+    <h3 style="background:#ffebee;display:inline-block;padding:4px 12px;border-radius:4px;margin-top:16px;">2023年上半年</h3>
+
+    <h4 style="color:#e67e22;margin:12px 0 8px;">【计算题】双代号网络图 + 挣值分析（经典题！）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>11个活动，人力成本500元/人天。第10天时ABCDEFG已完工，HK未开工，IJ各完成50%，AC=100000元。</p>
+      <p><strong>问题1（10分）：</strong>绘制双代号网络图，计算关键路径和工期。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>关键路径 <strong>BEIK</strong>，工期 <strong>17天</strong></span></p>
+      <p><strong>问题2（5分）：</strong>H活动延期会影响工期吗？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>不影响。H有总时差，延期不超过总时差就不影响总工期。</span></p>
+      <p><strong>问题3（7分）：</strong>计算PV、EV、SV、CV。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>PV=<strong>114000</strong>；EV=<strong>101500</strong>；AC=100000；CV=EV−AC=<strong>1500（节约）</strong>；SV=EV−PV=<strong>−12500（滞后）</strong></span></p>
+      <p><strong>问题4（3分）：</strong>应采取什么措施？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>进度落后、成本持平，优先<strong>赶工</strong>或<strong>快速跟进</strong>，适当增加资源。</span></p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 8px;">【简答题】资源管理 + 沟通管理 + 干系人管理</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>智慧环保项目，采购服务器迟迟不到位、S公司不受掌控、研发人员被调走、多重压力。</p>
+      <p><strong>问题1（12分）：</strong>指出资源管理和沟通管理存在的问题。<br>
+      <strong>答：</strong>资源管理：未做资源规划、关键资源未及时到位、人员调动无预案、未绩效考核；沟通管理：与供应商沟通不畅、未定期汇报、干系人期望未管理</p>
+      <p><strong>问题2（5分）：</strong>填空 — 项目组织结构是____，选人标准。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>矩阵型组织；选人标准包括经验、知识、技能、态度、可用性</span></p>
+      <p><strong>问题3（3分）：</strong>补充未识别到的干系人。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>PMO、人力部门、营销部门、政策法规部门</span></p>
+      <p><strong>问题4（5分）：</strong>资源管理包含的过程及作用。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>①规划资源管理 ②估算活动资源 ③获取资源 ④建设团队 ⑤管理团队 ⑥控制资源</span></p>
+    </div>
+
+    <!-- 2023下 -->
+    <h3 style="background:#ffebee;display:inline-block;padding:4px 12px;border-radius:4px;margin-top:16px;">2023年下半年</h3>
+    <h4 style="color:#1565c0;margin:12px 0 4px;">【简答题】范围管理（第2批次）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>小陈任地铁乘客信息系统项目经理，自己编写范围说明书和WBS，开发人员自行增加功能。</p>
+      <p><strong>问题1（10分）：</strong>分析范围管理存在的问题。<br>
+      <strong>答：</strong>①范围说明书由项目经理独自编写，未与干系人共同确认；②WBS未经评审；③需求基线未建立；④未执行范围确认（客户验收）；⑤范围控制缺失，开发人员自行加功能属"镀金"；⑥未处理范围变更请求</p>
+      <p><strong>问题2（6分）：</strong>除范围管理外还存在哪些问题？<br>
+      <strong>答：</strong>采购管理（供应商纠纷）、沟通管理（团队擅自加功能）、质量管理（丢包问题未解决）、风险管理（未识别无线网络风险）</p>
+      <p><strong>问题3：</strong>将项目分解为工作包需要开展哪些活动？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>①识别和分析可交付成果 ②确定WBS结构 ③逐层分解 ④为WBS组件分配标识编码 ⑤核实分解程度是否适当</span></p>
+    </div>
+
+    <h4 style="color:#e67e22;margin:12px 0 8px;">【计算题】挣值管理（第2批次）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>BAC=20万（含2万应急储备），完成60%，PV=12万，AC=10万。</p>
+      <p><strong>计算EV、CV、SV、ETC：</strong><br>
+      <span style="color:#1565c0;">EV = 20×60% = <strong>12万</strong>；CV = 12−10 = <strong>2万（节约）</strong>；SV = 12−12 = <strong>0（刚好）</strong>；ETC(非典型) = BAC−EV = <strong>8万</strong></span></p>
+    </div>
+
+    <!-- 2022上 -->
+    <h3 style="background:#ffebee;display:inline-block;padding:4px 12px;border-radius:4px;margin-top:16px;">2022年上半年</h3>
+
+    <h4 style="color:#e67e22;margin:12px 0 8px;">【计算题】三点估算 + 时标网络图 + 挣值（经典综合题！）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>旅游信息监管系统，9个活动，给出乐观/最可能/悲观工期、人数、预算。</p>
+      <p><strong>问题1（12分）：</strong>β分布计算各活动工期，绘制时标网络图，最少需多少人？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>各活动用 t=(O+4M+P)/6 计算期望工期；最少人数通过<strong>资源平衡</strong>在时标网络图上确定</span></p>
+      <p><strong>问题2（3分）：</strong>确定关键路径和工期。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>关键路径 <strong>ABCDEFGHI</strong></span></p>
+      <p><strong>问题3（6分）：</strong>第70天完成总工作量3/4，花费60万，计算PV、EV、SV、CV。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>BAC=各活动预算之和；EV=BAC×75%；PV=按计划第70天应完成工作量的预算；SV=EV−PV；CV=EV−60</span></p>
+      <p><strong>问题4（4分）：</strong>判断绩效并采取什么措施？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>根据CV/SV正负判断，进度滞后→赶工/快速跟进，成本超支→控制成本</span></p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 8px;">【简答题】风险管理</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>养老保险信息系统，项目组只对内部风险制定应对措施，外部风险未处理。3月底关闭所有风险，5月新设备上线频繁故障，中断超20小时。</p>
+      <p><strong>问题1（10分）：</strong>指出风险管理存在的问题。<br>
+      <strong>答：</strong>①风险管理计划不完整；②风险识别不全面（遗漏外部风险）；③未对外部风险制定应对措施；④风险监控不足，过早关闭风险管理（3月关闭，5月暴露问题）；⑤未进行风险再评估；⑥未采用定量风险分析；⑦新设备上线风险应对缺失</p>
+      <p><strong>问题2（4分）：</strong>新设备上线风险的应对措施？<br>
+      <strong>答：</strong>①提前进行设备测试和试运行（减轻）；②与供应商签订SLA服务保障协议（转移）；③准备备用设备方案（减轻）</p>
+      <p><strong>问题3（6分）：</strong>判断正误（量化风险分析、风险再评估、纯粹风险等概念）。</p>
+    </div>
+
+    <!-- 2022下 -->
+    <h3 style="background:#ffebee;display:inline-block;padding:4px 12px;border-radius:4px;margin-top:16px;">2022年下半年</h3>
+
+    <h4 style="color:#e67e22;margin:12px 0 8px;">【计算题】双代号网络图 + 工期压缩 + 挣值（综合送分题！）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>某项目10个活动，给出紧前关系、计划工期、直接成本、最快完工时间、压缩后成本。</p>
+      <p><strong>问题1（8分）：</strong>绘制双代号网络图，求计划工期和关键路径，计算A和B的总时差。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>关键路径 <strong>ADGIJ</strong>，工期 <strong>170天</strong>；A的总时差=0；B的总时差=某值</span></p>
+      <p><strong>问题2（8分）：</strong>要求150天完工，写出成本最优压缩方案。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>按成本斜率（压缩后增加的成本÷压缩天数）从小到大压缩关键路径活动，直到150天</span></p>
+      <p><strong>问题4（6分）：</strong>第80天ACD已完工、B完成一半，计算B的SV、CV。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>根据B的EV/PV/AC计算偏差 → 判断绩效</span></p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 8px;">【简答题】沟通管理</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>协同办公系统，小张让研发小陈制定沟通管理计划，外包含糊通知导致验收时问题。</p>
+      <p><strong>问题1（6分）：</strong>沟通管理计划表哪里不合理？<br>
+      <strong>答：</strong>①沟通对象不全（遗漏外包方）；②沟通频率不匹配（关键干系人频率太低）；③沟通方式不当（重要变更只电话通知）；④缺少沟通责任人</p>
+      <p><strong>问题2（10分）：</strong>补充沟通管理三个过程及存在的问题。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>①规划沟通 — 计划由非项目经理制定、未经评审；②管理沟通 — 信息传递不及时、方式不当；③控制沟通 — 未收集反馈、未调整沟通策略</span></p>
+      <p><strong>问题3（8分）：</strong>常用沟通方法分几类？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>推式沟通（邮件、报告）、拉式沟通（知识库、门户）、互动沟通（会议、电话）</span></p>
+    </div>
+
+    <!-- 2021 -->
+    <h3 style="background:#ffebee;display:inline-block;padding:4px 12px;border-radius:4px;margin-top:16px;">2021年</h3>
+    <h4 style="color:#e67e22;margin:12px 0 4px;">【计算题】关键路径 + 挣值分析</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;margin-bottom:8px;">
+      <p>2021年上下半年均考查了"网络图绘制 + 关键路径 + 挣值计算（PV/EV/AC/CV/SV）"的组合。下半年试题三考查了<strong>配置管理</strong>（配置库类型、配置变更流程、CCB主席由高层担任、版本号规范）。</p>
+    </div>
+
+    <h4 style="color:#1565c0;margin:12px 0 4px;">【简答题】变更管理 — 范围蔓延经典题（2016改编，至今仍考）</h4>
+    <div style="background:#fafafa;padding:12px;border-radius:6px;font-size:13px;border:1px solid #e0e0e0;">
+      <p><strong>场景：</strong>项目经理确定大致需求后即开发，客户不断提修改意见，直接安排开发，导致实际功能与需求相差甚远。</p>
+      <p><strong>问题1：</strong>需求变更后可能导致哪些方面同时变更？<br>
+      <span style="color:#1565c0;"><strong>答：</strong>范围、进度、成本、质量、合同、人力资源</span></p>
+      <p><strong>问题2：</strong>指出项目整体管理方面存在的问题。<br>
+      <strong>答：</strong>①需求分析不详细，只确定大致要点；②需求未经客户签字确认；③未制定整体管理计划；④变更未走流程，CCB未审批就实施；⑤进度和范围管理缺失</p>
+      <p><strong>问题3：</strong>整体变更控制完整流程。<br>
+      <span style="color:#1565c0;"><strong>答：</strong>①提出变更申请 → ②变更影响分析 → ③CCB审查批准 → ④实施变更 → ⑤监控变更实施 → ⑥验证/结束变更</span></p>
+    </div>
+
+    <!-- 训练建议 -->
+    <div style="background:#e8f5e9;padding:14px;border-radius:8px;margin-top:16px;font-size:13px;">
+      <strong>真题训练方法：</strong><br>
+      ① <strong>计算题：</strong>先做2024年+2023年的4道挣值/网络图题，手算完再对答案。这4道做完，计算题基本稳了。<br>
+      ② <strong>简答题：</strong>看3年的案例题，脑中列踩分点关键词→对答案看漏了哪些。翻来覆去就是变更、风险、范围、质量这几个套路。<br>
+      ③ <strong>时间分配：</strong>每天花1小时做1道计算+阅读1道案例，5天可覆盖近5年核心真题。<br>
+      ④ <strong>重复练习：</strong>错的题间隔2天再做一遍，加深记忆。
+    </div>
+  </div>
+
+  <!-- 考前速查 -->
+  <div class="card" style="border-left:4px solid #f39c12;">
+    <h2 style="border-left-color:#f39c12;">考前速查：高频小细节（扫一眼就有分）</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:14px;">以下全是选择题+简单题爱考的零散知识点，不用深究，考前翻一遍有印象就行。</p>
+
+    <h3>一、组织结构类型（选择题必考1题）</h3>
+    <div style="overflow-x:auto;">
+    <table>
+      <tr><th>类型</th><th>项目经理权力</th><th>特点</th><th>适用场景</th></tr>
+      <tr><td><strong>职能型</strong></td><td style="color:#d32f2f;">几乎没有</td><td>按部门管，PM协调而已</td><td>小型、单一部门项目</td></tr>
+      <tr><td><strong>弱矩阵</strong></td><td style="color:#e67e22;">较弱</td><td>类似职能型，有协调员</td><td></td></tr>
+      <tr><td><strong>平衡矩阵</strong></td><td style="color:#f39c12;">中等</td><td>PM与职能经理权力相当</td><td>最常见的企业IT项目</td></tr>
+      <tr><td><strong>强矩阵</strong></td><td style="color:#2e7d32;">较高</td><td>PM全职，权力大</td><td>大型复杂项目</td></tr>
+      <tr><td><strong>项目型</strong></td><td style="color:#1565c0;">最高</td><td>团队全职，PM说了算</td><td>大型/长期/核心项目</td></tr>
+    </table>
+    </div>
+    <p style="font-size:12px;color:#888;margin-top:4px;">记忆：职能→弱矩阵→平衡→强矩阵→项目型，PM权力从小到大。</p>
+
+    <h3>二、合同类型 + 风险分配（必考1题）</h3>
+    <table>
+      <tr><th>类型</th><th>缩写</th><th>买方风险</th><th>卖方风险</th><th>什么情况用</th></tr>
+      <tr><td>固定总价</td><td><strong>FFP</strong></td><td style="color:#2e7d32;">低</td><td style="color:#d32f2f;">高</td><td>需求明确、范围清晰</td></tr>
+      <tr><td>成本加激励费</td><td><strong>CPIF</strong></td><td>中</td><td>中</td><td>需求不太确定，想激励卖方省钱</td></tr>
+      <tr><td>成本加固定费</td><td><strong>CPFF</strong></td><td style="color:#d32f2f;">高</td><td style="color:#2e7d32;">低</td><td>需求很不确定、范围模糊</td></tr>
+      <tr><td>工料合同</td><td><strong>T&M</strong></td><td>中</td><td>中</td><td>小活/紧急活/工作量不好估</td></tr>
+    </table>
+    <p style="font-size:12px;color:#888;margin-top:4px;">口诀：FFP 卖方扛，CPFF 买方扛。需求越模糊 → 买方承担风险越大。</p>
+
+    <h3>三、项目章程 vs 项目管理计划（难区分，常考）</h3>
+    <table>
+      <tr><th></th><th>项目章程</th><th>项目管理计划</th></tr>
+      <tr><td><strong>谁发布</strong></td><td><strong style="color:#d32f2f;">发起人</strong>（不是PM）</td><td><strong>项目经理</strong>组织编写</td></tr>
+      <tr><td><strong>什么时候</strong></td><td>项目启动时，立项前</td><td>启动后，规划阶段</td></tr>
+      <tr><td><strong>核心内容</strong></td><td>项目目的、目标、高层级需求、里程碑、<strong>任命PM</strong>、总体预算</td><td>10个子管理计划 + 3个基准（范围/进度/成本）</td></tr>
+      <tr><td><strong>作用</strong></td><td>正式<strong>授权</strong>项目启动，给PM赋权</td><td>指导项目如何执行、监控、收尾</td></tr>
+    </table>
+
+    <h3>四、可行性研究 5 个维度</h3>
+    <div style="background:#f0f5ff;padding:10px;border-radius:6px;font-size:13px;margin-bottom:12px;">
+      技术可行性 → 经济可行性 → 运行可行性 → 法律可行性 → 社会可行性<br>
+      <span style="color:#888;">考法：问"可行性研究包括哪些？"或给场景判断属于哪种可行性。</span>
+    </div>
+
+    <h3>五、各类估算方法对比</h3>
+    <table>
+      <tr><th>方法</th><th>精度</th><th>速度</th><th>什么时候用</th></tr>
+      <tr><td><strong>类比估算</strong></td><td style="color:#d32f2f;">低</td><td>快</td><td>项目早期，信息很少，参考类似项目</td></tr>
+      <tr><td><strong>参数估算</strong></td><td>中</td><td>中</td><td>有历史数据和参数模型（如每行代码=1h）</td></tr>
+      <tr><td><strong>自下而上估算</strong></td><td style="color:#2e7d32;">最高</td><td style="color:#d32f2f;">最慢</td><td>WBS工作包明细已出，逐个估算再汇总</td></tr>
+      <tr><td><strong>三点估算(PERT)</strong></td><td>较高</td><td>中</td><td>不确定性高时，O/M/P加权</td></tr>
+    </table>
+
+    <h3>六、项目经理的权力类型</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:6px; font-size:12px; margin-bottom:12px;">
+      <div style="background:#e8f5e9;padding:8px;border-radius:4px;"><strong>专家权力</strong>：你的技术/管理能力让人服（最好的权力）</div>
+      <div style="background:#e8f5e9;padding:8px;border-radius:4px;"><strong>参照权力</strong>：有人格魅力，别人愿意跟你干</div>
+      <div style="background:#fff3e0;padding:8px;border-radius:4px;"><strong>正式/合法权力</strong>：职位赋予的权力</div>
+      <div style="background:#fff3e0;padding:8px;border-radius:4px;"><strong>奖励权力</strong>：能发奖金/给好处</div>
+      <div style="background:#fce4ec;padding:8px;border-radius:4px;"><strong>惩罚/强制权力</strong>：能处罚（尽量别用）</div>
+      <div style="background:#e3f2fd;padding:8px;border-radius:4px;"><strong>信息权力</strong>：掌握关键信息</div>
+    </div>
+
+    <h3>七、配置管理（2023后选择/案例均有出现）</h3>
+    <table>
+      <tr><th>概念</th><th>说明</th></tr>
+      <tr><td><strong>配置项</strong></td><td>被纳入配置管理的对象（代码/文档/设计图等）</td></tr>
+      <tr><td><strong>配置状态</strong></td><td>草稿 → 正式发布 → 修改中 → 已归档</td></tr>
+      <tr><td><strong>配置审计</strong></td><td>功能配置审计（功能对没对）+ 物理配置审计（文件全不全）</td></tr>
+      <tr><td><strong>配置库类型</strong></td><td>开发库（程序员用）→ 受控库（测试用）→ 产品库（上线用）</td></tr>
+      <tr><td><strong>CCB在配置管理中的角色</strong></td><td>审批配置项的<strong>基线变更</strong>，CCB主席不能是PM（应由高层担任）</td></tr>
+      <tr><td><strong>版本号规范</strong></td><td>如 V2.1.3：主版本.次版本.修订号</td></tr>
+    </table>
+
+    <h3>八、招投标流程（常考判断题/填空）</h3>
+    <div style="background:#f0f5ff;padding:10px;border-radius:6px;font-size:13px;margin-bottom:12px;">
+      招标公告 → 投标 → 开标 → 评标 → 定标（中标）→ 签合同<br>
+      <span style="color:#888;">关键点：开标与投标截止同一时间；评标委员会≥5人单数（技术经济专家≥2/3）；中标后<strong>30日内</strong>签合同。</span>
+    </div>
+
+    <h3>九、质量 7 工具（选择题高频）</h3>
+    <table>
+      <tr><th>工具</th><th>英文</th><th>主要用途</th></tr>
+      <tr><td>因果图（鱼骨图）</td><td>Cause-and-Effect Diagram</td><td>找问题的<strong>根本原因</strong></td></tr>
+      <tr><td>控制图</td><td>Control Chart</td><td>判断过程是否<strong>稳定受控</strong>（上下限之间=受控）</td></tr>
+      <tr><td>帕累托图</td><td>Pareto Chart</td><td>80/20法则，找<strong>关键少数</strong>问题</td></tr>
+      <tr><td>散点图</td><td>Scatter Diagram</td><td>分析两个变量<strong>相关性</strong></td></tr>
+      <tr><td>流程图</td><td>Flowchart</td><td>梳理过程的<strong>步骤和分支</strong></td></tr>
+      <tr><td>核查表</td><td>Check Sheet</td><td><strong>收集和统计</strong>缺陷数据</td></tr>
+      <tr><td>直方图</td><td>Histogram</td><td>展示数据<strong>分布</strong>情况</td></tr>
+    </table>
+
+    <h3>十、沟通方法 3 类</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; font-size:12px; margin-bottom:12px;">
+      <div style="background:#e3f2fd;padding:8px;border-radius:4px;"><strong>推式沟通</strong>：主动推送 → 邮件、报告、备忘录（不保证对方看了）</div>
+      <div style="background:#e8f5e9;padding:8px;border-radius:4px;"><strong>互动沟通</strong>：双向交流 → 会议、电话、面谈（最有效）</div>
+      <div style="background:#fff3e0;padding:8px;border-radius:4px;"><strong>拉式沟通</strong>：被动接受 → 知识库、内网、门户（信息量大时用）</div>
+    </div>
+
+    <h3>十一、干系人参与度分类</h3>
+    <div style="background:#f0f5ff;padding:10px;border-radius:6px;font-size:13px;margin-bottom:12px;overflow-x:auto;">
+      <code style="white-space:nowrap;">
+      不了解 → <strong style="color:#d32f2f;">抵制</strong> → 中立 → <strong style="color:#f39c12;">支持</strong> → <strong style="color:#2e7d32;">领导</strong>（参与度从低到高）
+      </code><br>
+      <span style="color:#888;">考法：给定干系人当前参与度和期望参与度，问用什么策略拉近差距。</span>
+    </div>
+
+    <h3>十二、信息系统开发方法</h3>
+    <table>
+      <tr><th>方法</th><th>特点</th><th>适合什么项目</th></tr>
+      <tr><td><strong>结构化方法（瀑布）</strong></td><td>阶段分明，上一阶段完成才进入下一阶段</td><td>需求明确、变化少</td></tr>
+      <tr><td><strong>原型法</strong></td><td>快速出原型，让用户试 → 反馈 → 修改</td><td>需求不清楚、界面交互多</td></tr>
+      <tr><td><strong>面向对象方法</strong></td><td>基于对象/类/继承，复用性强</td><td>大型复杂系统</td></tr>
+      <tr><td><strong>敏捷方法</strong></td><td>迭代交付，拥抱变化，持续反馈</td><td>需求变化频繁、团队小</td></tr>
+    </table>
+
+    <h3>十三、数字类口诀</h3>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; font-size:12px;">
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>WBS 8-80规则</strong><br>每个工作包 8~80 小时
+      </div>
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>沟通渠道 n(n−1)/2</strong><br>n 包括项目经理
+      </div>
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>评标委员会 ≥5人单数</strong><br>技术经济专家 ≥ 2/3
+      </div>
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>中标后30日内签合同</strong><br>退还保证金
+      </div>
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>PERT概率：1σ=68.26%</strong><br>2σ=95.46%，3σ=99.73%
+      </div>
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>95%置信区间</strong><br>t ± 2σ
+      </div>
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>德尔菲法</strong><br>匿名多轮专家调查，逐步收敛
+      </div>
+      <div style="background:#f8f9ff;padding:8px;border-radius:4px;">
+        <strong>应急储备 vs 管理储备</strong><br>应急=已知风险(PM可控)；管理=未知风险(管理层可控)
+      </div>
+      <div style="background:#fff8e1;padding:8px;border-radius:4px;">
+        <strong>配置库3级</strong><br>开发库→受控库→产品库
+      </div>
+    </div>
+
+    <div style="background:#fff8e1;padding:14px;border-radius:8px;margin-top:16px;font-size:13px;">
+      <strong>考前1天用法：</strong>快速翻一遍上面12张表，每张30秒，总共6分钟。考试碰到哪个细节忘了，回忆这个卡片的位置，大概率能想起来。选择题最怕的不是不知道，是<strong>选项里两个概念分不清</strong>——这份清单就是帮你区分的。
+    </div>
+  </div>
+
+  <div class="footer-note">
+    核心原则：别啃教材，真题为王 · 别求全，及格就行（45/45/45）
+  </div>
+
+</div>
+</body>
+</html>

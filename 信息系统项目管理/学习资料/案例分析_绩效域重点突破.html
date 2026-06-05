@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026案例分析 — 绩效域重点突破</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --bg: #f8fafc;
+    --card: #fff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.7;
+    max-width: 960px; margin: 0 auto; padding: 32px 20px 80px;
+  }
+  h1 {
+    text-align: center; font-size: 26px; margin-bottom: 4px; color: var(--primary);
+  }
+  .subtitle {
+    text-align: center; font-size: 14px; color: var(--muted); margin-bottom: 32px;
+  }
+  .alert {
+    background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px;
+    border-radius: 6px; font-size: 14px; margin-bottom: 28px;
+  }
+  h2 {
+    font-size: 20px; color: var(--primary); border-bottom: 2px solid var(--border);
+    padding-bottom: 6px; margin: 36px 0 16px;
+  }
+  h3 {
+    font-size: 16px; margin: 20px 0 8px; color: #334155;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 20px 24px; margin-bottom: 18px;
+  }
+  .card h4 { font-size: 15px; color: var(--primary); margin-bottom: 6px; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { margin-bottom: 4px; font-size: 14px; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px;
+  }
+  th, td {
+    border: 1px solid var(--border); padding: 8px 12px; text-align: left;
+  }
+  th { background: #eff6ff; font-weight: 600; }
+  .tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 12px; font-weight: 600; margin-right: 4px;
+  }
+  .tag-proc { background: #dbeafe; color: #1e40af; }
+  .tag-case { background: #fce7f3; color: #9d174d; }
+  .tag-mem { background: #d1fae5; color: #065f46; }
+  .framework {
+    background: #f0f9ff; border: 1px dashed #93c5fd;
+    border-radius: 6px; padding: 14px 18px; margin: 10px 0; font-size: 14px;
+  }
+  .framework .title { font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+  .vs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0;
+  }
+  .vs > div { padding: 12px; border-radius: 6px; font-size: 13px; }
+  .vs .left { background: #eff6ff; }
+  .vs .right { background: #fef2f2; }
+  .vs strong { display: block; margin-bottom: 4px; }
+  strong { color: #0f172a; }
+  .footer {
+    text-align: center; font-size: 12px; color: var(--muted); margin-top: 48px;
+    padding-top: 16px; border-top: 1px solid var(--border);
+  }
+  @media print {
+    body { max-width: 100%; padding: 20px; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>2026年5月 案例分析 — 绩效域重点突破</h1>
+<p class="subtitle">基于第一批考试趋势整理 · 沟通管理 · 度量绩效域 · 不确定性绩效域 · 采购管理 · 风险管理</p>
+
+<div class="alert">
+  <strong>考情速报：</strong>2026年5月23日第一批考试，案例分析正式转向<b>绩效域</b>考察，成为主流和必考。传统十大知识领域退居背景框架，PMBOK第七版绩效域思维站上C位。以下针对五个高频领域逐个拆解。
+</div>
+
+<!-- ==================== 1. 沟通管理 ==================== -->
+<h2>一、沟通管理</h2>
+
+<div class="card">
+  <h4>核心框架</h4>
+  <table>
+    <tr><th>过程</th><th>要点</th></tr>
+    <tr><td>规划沟通管理</td><td>基于干系人需求确定沟通方式、频率、内容；沟通渠道数 n(n−1)/2</td></tr>
+    <tr><td>管理沟通</td><td>按计划收集、生成、分发信息；确保信息<strong>完整、及时、准确</strong></td></tr>
+    <tr><td>监督沟通</td><td>监控沟通效果，根据反馈调整；防止信息过载或遗漏</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-case">案例高频场景</span></h4>
+  <ol>
+    <li><strong>干系人不满/投诉：</strong>信息传递不及时、沟通渠道不畅、干系人未识别到位</li>
+    <li><strong>团队协作冲突：</strong>异地/虚拟团队沟通障碍、语言文化差异</li>
+    <li><strong>需求变更引发的混乱：</strong>变更信息未同步所有相关方</li>
+    <li><strong>汇报机制缺失：</strong>高层不了解项目状态，干系人信息不对称</li>
+  </ol>
+</div>
+
+<div class="framework">
+  <div class="title">答题框架 — 沟通问题通用四步法</div>
+  <ol>
+    <li><strong>诊断根因：</strong>定位是「规划缺失」「执行不到位」还是「监督反馈不足」</li>
+    <li><strong>规划修复：</strong>更新沟通管理计划 → 明确干系人信息需求矩阵 → 确定沟通方式（推式/拉式/交互式）</li>
+    <li><strong>执行改进：</strong>建立信息分发机制 → 选择合适的沟通技术 → 确保信息编码/解码一致</li>
+    <li><strong>监督闭环：</strong>收集干系人反馈 → 评估沟通有效性 → 持续优化</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-mem">记忆要点</span></h4>
+  <ul>
+    <li>沟通渠道数公式：<strong>n(n−1)/2</strong>，新增1人增加 n 条渠道（原有人数）</li>
+    <li>沟通方式三种：<strong>交互式</strong>（会议/电话）、<strong>推式</strong>（邮件/报告）、<strong>拉式</strong>（知识库/内网）</li>
+    <li>沟通模型：发送方 → 编码 → 媒介 → 解码 → 接收方，全程有<strong>噪声</strong>干扰</li>
+    <li>90%的项目经理时间用于沟通</li>
+    <li>书面+口头的组合沟通效果最优</li>
+  </ul>
+</div>
+
+<!-- ==================== 2. 度量绩效域 ==================== -->
+<h2>二、度量绩效域</h2>
+
+<div class="card">
+  <h4>核心框架（PMBOK 7th）</h4>
+  <table>
+    <tr><th>维度</th><th>核心问题</th><th>关键实践</th></tr>
+    <tr><td>制定度量指标</td><td>度量什么？指标是否与目标对齐？</td><td>SMART原则、KPI/KRI/OKR</td></tr>
+    <tr><td>收集数据</td><td>数据来源可靠吗？收集成本合理吗？</td><td>自动化采集、数据字典</td></tr>
+    <tr><td>分析数据</td><td>偏差多大？趋势如何？</td><td>挣值分析(EVM)、趋势分析、根本原因分析</td></tr>
+    <tr><td>做出决策</td><td>基于数据，下一步做什么？</td><td>偏差阈值触发纠正措施</td></tr>
+    <tr><td>沟通结果</td><td>谁需要知道什么？何时？</td><td>仪表盘、状态报告、评审会</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-case">案例高频场景</span></h4>
+  <ol>
+    <li><strong>度量指标不合理：</strong>指标与项目目标脱节，只度量了容易度量的而非重要的（虚荣指标）</li>
+    <li><strong>数据质量差：</strong>手工填报、口径不一致、数据延迟</li>
+    <li><strong>只监不控：</strong>数据收集了但不分析、不决策，度量沦为形式</li>
+    <li><strong>度量过度：</strong>指标太多导致团队负担重、注意力分散</li>
+  </ol>
+</div>
+
+<div class="framework">
+  <div class="title">答题框架 — 度量问题三步法</div>
+  <ol>
+    <li><strong>指标体系重构：</strong>重新对齐项目目标 → 定义领先指标（驱动型）和滞后指标（结果型）→ 设定合理阈值和预警线</li>
+    <li><strong>数据质量保障：</strong>建立数据采集规范 → 自动采集替代手工 → 定期数据质量审计</li>
+    <li><strong>度量驱动决策：</strong>建立评审节奏（如周度度量评审会）→ 偏差超过阈值自动触发纠正流程 → 度量结果可视化展示</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-mem">记忆要点</span></h4>
+  <ul>
+    <li><strong>领先指标 vs 滞后指标：</strong>前者预测未来（如需求变更率），后者反映过去（如实际成本）</li>
+    <li><strong>KPI vs KRI：</strong>KPI衡量绩效好不好，KRI衡量风险大不大</li>
+    <li><strong>度量陷阱：</strong>古德哈特定律——当一个度量变成目标时，它就不再是一个好的度量</li>
+    <li>度量成本不应超过它所支持决策的价值</li>
+  </ul>
+</div>
+
+<!-- ==================== 3. 不确定性绩效域 ==================== -->
+<h2>三、不确定性绩效域</h2>
+
+<div class="card">
+  <h4>核心框架（PMBOK 7th）</h4>
+  <p style="margin-bottom:10px;">不确定性 ≠ 风险。不确定性有<strong>四种来源</strong>：</p>
+  <table>
+    <tr><th>来源</th><th>含义</th><th>应对策略</th></tr>
+    <tr><td><strong>风险 (Risk)</strong></td><td>已知-未知，可识别概率和影响</td><td>规避/转移/减轻/接受</td></tr>
+    <tr><td><strong>模糊性 (Ambiguity)</strong></td><td>需求或方案不清晰、有多种解读</td><td>渐进明细、原型验证、多方案并行</td></tr>
+    <tr><td><strong>复杂性 (Complexity)</strong></td><td>系统要素多、相互依赖、涌现行为</td><td>解耦、模块化、系统思考</td></tr>
+    <tr><td><strong>波动性 (Volatility)</strong></td><td>环境快速变化、难以预测</td><td>敏捷迭代、预留缓冲、情景规划</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-case">案例高频场景</span></h4>
+  <ol>
+    <li><strong>需求不确定：</strong>客户说不清要什么，需求频繁变更</li>
+    <li><strong>技术不确定：</strong>采用新技术栈，团队不熟悉，可行性存疑</li>
+    <li><strong>环境不确定：</strong>政策法规变动、市场变化、组织架构调整</li>
+    <li><strong>复杂度失控：</strong>多系统集成、多供应商协调，牵一发动全身</li>
+  </ol>
+</div>
+
+<div class="framework">
+  <div class="title">答题框架 — 不确定性应对四维法</div>
+  <ol>
+    <li><strong>分类诊断：</strong>判断不确定性的主要来源（风险/模糊/复杂/波动）→ 不能一刀切</li>
+    <li><strong>策略选择：</strong>风险→建立风险登记册；模糊→原型/试点；复杂→模块化解耦；波动→预留缓冲+滚动规划</li>
+    <li><strong>组织保障：</strong>建立变更控制委员会(CCB) → 提高团队韧性 → 培养T型人才</li>
+    <li><strong>过程适配：</strong>选择适合的生命周期（预测型/迭代型/增量型/敏捷型/混合型），不确定性越高越倾向敏捷</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-mem">记忆要点</span></h4>
+  <ul>
+    <li><strong>韧性 (Resilience)：</strong>系统在扰动后恢复的能力，不只是"扛住"更是"弹回来"</li>
+    <li><strong>反脆弱 (Antifragile)：</strong>不仅承受波动，还在波动中变得更强——在项目中体现为持续学习和改进</li>
+    <li>不确定性与<strong>生命周期选择</strong>直接关联：不确定性越高，越需要迭代和增量方式</li>
+    <li><strong>预留管理储备</strong>是关键实践——不是浪费，是对不确定性的理性投资</li>
+  </ul>
+</div>
+
+<!-- ==================== 4. 采购管理 ==================== -->
+<h2>四、采购管理</h2>
+
+<div class="card">
+  <h4>核心框架</h4>
+  <table>
+    <tr><th>过程</th><th>要点</th></tr>
+    <tr><td>规划采购管理</td><td>自制/外购分析；合同类型选择（固定总价/成本补偿/工料）</td></tr>
+    <tr><td>实施采购</td><td>招标/询价/谈判；卖方选择标准；采购工作说明书(SOW)</td></tr>
+    <tr><td>控制采购</td><td>合同履行监控；变更管理；索赔管理；合同收尾</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h4>三种合同类型对比</h4>
+  <table>
+    <tr><th>合同类型</th><th>买方风险</th><th>适用场景</th></tr>
+    <tr><td><strong>固定总价 (FFP)</strong></td><td>低</td><td>范围明确、需求稳定</td></tr>
+    <tr><td><strong>成本补偿 (CPFF/CPIF)</strong></td><td>高</td><td>范围不明确、需灵活调整</td></tr>
+    <tr><td><strong>工料合同 (T&M)</strong></td><td>中等</td><td>工作量大但单价可定、范围中等清晰</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-case">案例高频场景</span></h4>
+  <ol>
+    <li><strong>供应商选择不当：</strong>低价中标但交付质量差、供应商能力不足</li>
+    <li><strong>合同条款模糊：</strong>验收标准不清、变更流程缺失、违约责任不明</li>
+    <li><strong>采购过程不规范：</strong>规避招标、围标串标、未按规定审批</li>
+    <li><strong>合同执行失控：</strong>供应商延期、超支、质量不达标，缺少有效监控</li>
+  </ol>
+</div>
+
+<div class="framework">
+  <div class="title">答题框架 — 采购问题通用对策</div>
+  <ol>
+    <li><strong>规划阶段：</strong>完整自制/外购分析 → 选择合适合同类型 → 编制详细的采购SOW → 制定选择标准（不唯低价论）</li>
+    <li><strong>执行阶段：</strong>规范招标/询价流程 → 做好供应商尽职调查 → 合同条款明确（范围、验收标准、付款条件、违约条款、变更流程）</li>
+    <li><strong>控制阶段：</strong>建立供应商绩效评审机制 → 定期对照合同条款核查 → 变更走正式变更控制流程 → 做好索赔和争议管理</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-mem">记忆要点</span></h4>
+  <ul>
+    <li>合同类型选择口诀：<strong>范围清→固定总价，范围模糊→成本补偿</strong></li>
+    <li>采购文档三大件：采购工作说明书(SOW)、询价文件(RFP/RFQ)、供方选择标准</li>
+    <li>集中采购 vs 分散采购：前者降低成本但灵活性差，后者相反</li>
+    <li>合同收尾四步：验收→结算→绩效评估→归档</li>
+  </ul>
+</div>
+
+<!-- ==================== 5. 风险管理 ==================== -->
+<h2>五、风险管理</h2>
+
+<div class="card">
+  <h4>核心框架</h4>
+  <table>
+    <tr><th>过程</th><th>要点</th></tr>
+    <tr><td>规划风险管理</td><td>确定风险管理活动的方法、角色、预算、时间安排</td></tr>
+    <tr><td>识别风险</td><td>头脑风暴、德尔菲法、SWOT、根本原因分析；输出<strong>风险登记册</strong></td></tr>
+    <tr><td>定性风险分析</td><td>评估概率和影响，生成<strong>概率影响矩阵</strong>，排出优先级</td></tr>
+    <tr><td>定量风险分析</td><td>EMV（期望货币值）、蒙特卡洛模拟、敏感性分析、决策树</td></tr>
+    <tr><td>规划风险应对</td><td>威胁→规避/转移/减轻/接受；机会→开拓/分享/提高/接受</td></tr>
+    <tr><td>实施风险应对</td><td>将应对措施转化为具体行动，分配责任人</td></tr>
+    <tr><td>监督风险</td><td>风险审计、储备分析、风险评审会；关注<strong>次生风险</strong></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-case">案例高频场景</span></h4>
+  <ol>
+    <li><strong>风险管理缺位：</strong>没有风险登记册、没有定期风险评审，出了问题临时应对</li>
+    <li><strong>风险识别不全面：</strong>只关注技术风险，忽略了管理风险、外部风险、干系人风险</li>
+    <li><strong>应对措施空洞：</strong>"加强监控""注意防范"——没有具体的责任人、时间、触发条件</li>
+    <li><strong>忽视次生风险：</strong>应对措施本身带来新问题（如赶工导致质量下降）</li>
+  </ol>
+</div>
+
+<div class="framework">
+  <div class="title">答题框架 — 风险管理缺陷通用对策</div>
+  <ol>
+    <li><strong>建章立制：</strong>制定风险管理计划 → 明确角色职责（风险负责人）→ 设定风险评审节奏</li>
+    <li><strong>全面识别：</strong>多维度识别（技术/管理/外部/组织）→ 多方法组合（头脑风暴+检查表+假设分析）→ 更新风险登记册</li>
+    <li><strong>科学分析：</strong>定性：概率影响矩阵 → 定量：EMV/决策树（涉及金额时用定量）→ 确定风险优先级</li>
+    <li><strong>落地应对：</strong>每个高风险有具体应对预案 → 明确触发条件和责任人 → 预留应急储备 → 跟踪次生风险</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4><span class="tag tag-mem">记忆要点</span></h4>
+  <ul>
+    <li><strong>风险应对策略（威胁）：</strong>规避（消除威胁根源）→ 转移（保险/外包，转移的是影响而非责任）→ 减轻（降低概率或影响）→ 接受（被动接受或预留储备主动接受）</li>
+    <li><strong>EMV = 概率 × 影响金额</strong>，用于比较不同应对方案的经济合理性</li>
+    <li><strong>应急储备 vs 管理储备：</strong>前者针对已知-未知风险（项目经理可控），后者针对未知-未知风险（管理层审批）</li>
+    <li>风险登记册是活的文档，伴随项目全生命周期持续更新</li>
+  </ul>
+</div>
+
+<!-- ==================== EMV 计算专题 ==================== -->
+<div class="card" style="border: 2px solid #f59e0b;">
+  <h4 style="color:#b45309;">EMV（预期货币价值）计算专题 — 已考！</h4>
+
+  <p style="margin-bottom:10px;"><strong>公式：EMV = 概率 × 影响金额（收益为正，损失为负）</strong></p>
+
+  <div class="vs" style="grid-template-columns: 1fr 1fr;">
+    <div class="left">
+      <strong>题型一：单风险EMV</strong>
+      <p style="font-size:13px; margin:0;">
+        某风险发生概率30%，发生损失50万。<br>
+        EMV = 30% × (−50万) = <strong>−15万</strong><br>
+        <em style="color:#64748b;">说明：该风险的货币化期望损失为15万</em>
+      </p>
+    </div>
+    <div class="right">
+      <strong>题型二：机会（正收益）</strong>
+      <p style="font-size:13px; margin:0;">
+        采用新技术有40%概率节省工期，预计节省成本20万。<br>
+        EMV = 40% × 20万 = <strong>+8万</strong><br>
+        <em style="color:#64748b;">积极风险（机会）EMV为正</em>
+      </p>
+    </div>
+  </div>
+
+  <h4 style="margin-top:16px;">题型三：多方案决策树（高频计算题）</h4>
+  <p style="font-size:14px; margin-bottom:8px;"><strong>场景：</strong>选择方案A（自研）还是方案B（外包）？</p>
+  <table>
+    <tr><th>方案</th><th>情景</th><th>概率</th><th>损益</th><th>EMV计算</th></tr>
+    <tr>
+      <td rowspan="2"><strong>方案A：自研</strong></td>
+      <td>成功</td><td>60%</td><td>+100万</td>
+      <td rowspan="2">60%×100 + 40%×(−30) = <strong>+48万</strong></td>
+    </tr>
+    <tr><td>失败</td><td>40%</td><td>−30万</td></tr>
+    <tr>
+      <td rowspan="2"><strong>方案B：外包</strong></td>
+      <td>顺利</td><td>80%</td><td>+50万</td>
+      <td rowspan="2">80%×50 + 20%×(−10) = <strong>+38万</strong></td>
+    </tr>
+    <tr><td>延误</td><td>20%</td><td>−10万</td></tr>
+  </table>
+  <p style="font-size:14px; margin-top:8px;"><strong>决策：</strong>EMV(A)=48万 &gt; EMV(B)=38万 → <strong>选方案A自研</strong></p>
+
+  <h4 style="margin-top:16px;">题型四：含决策树是否做测试/调研</h4>
+  <p style="font-size:14px; margin-bottom:4px;">先花5万做技术验证：</p>
+  <ul style="font-size:14px;">
+    <li>验证通过（概率70%）→ 自研EMV = +60万</li>
+    <li>验证不通过（概率30%）→ 外包EMV = +20万</li>
+    <li><strong>总EMV = −5 + (70%×60 + 30%×20) = −5 + 48 = +43万</strong></li>
+    <li>对比直接自研EMV = +48万 → 不测试直接做更划算（但风险更大）</li>
+  </ul>
+
+  <h4 style="margin-top:16px;">答题注意事项</h4>
+  <ul style="font-size:14px;">
+    <li><strong>EMV只看期望值，不反映风险偏好</strong>——风险厌恶型组织可能选EMV低但方差小的方案</li>
+    <li>计算时注意<strong>正负号</strong>：损失为负，收益为正</li>
+    <li>所有分支概率之和必须<strong>= 100%</strong></li>
+    <li>EMV用于<strong>定量风险分析</strong>过程，常见工具还有蒙特卡洛模拟、敏感性分析</li>
+  </ul>
+</div>
+
+<!-- ==================== 横向对比 ==================== -->
+<h2>六、跨领域串联要点</h2>
+
+<div class="card">
+  <h4>绩效域与传统知识领域的对应</h4>
+  <table>
+    <tr><th>PMBOK 7th 绩效域</th><th>关键中的关键</th><th>对标传统领域</th></tr>
+    <tr><td>干系人</td><td>持续沟通、参与度管理</td><td>沟通管理（部分）</td></tr>
+    <tr><td>团队</td><td>高绩效团队、赋能文化</td><td>资源管理（人力部分）</td></tr>
+    <tr><td>开发方法和生命周期</td><td>根据不确定性选择生命周期</td><td><strong>不确定性绩效域</strong></td></tr>
+    <tr><td>规划</td><td>滚动规划、够用即可</td><td>整体管理（部分）</td></tr>
+    <tr><td>项目工作</td><td>过程剪裁、资源优化</td><td>整体+资源管理</td></tr>
+    <tr><td>交付</td><td>价值导向、质量内建</td><td>范围+质量管理</td></tr>
+    <tr><td><strong>度量</strong></td><td><strong>指标对齐目标、数据驱动决策</strong></td><td><strong>度量绩效域（新增重点）</strong></td></tr>
+    <tr><td><strong>不确定性</strong></td><td><strong>四种来源分治、韧性建设</strong></td><td><strong>风险管理（扩展版）</strong></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h4>案例答题通用模板 — 六步法</h4>
+  <ol>
+    <li><strong>问题定位：</strong>从题干找出2-3个核心问题（对应过程缺失/执行不当/监督缺位）</li>
+    <li><strong>理论对照：</strong>指出正确的理论做法（引用PMBOK过程或绩效域实践）</li>
+    <li><strong>影响分析：</strong>说明该问题对项目目标（范围/进度/成本/质量）的具体影响</li>
+    <li><strong>改进措施：</strong>给出3-5条具体可操作的改进建议（不能只说正确废话）</li>
+    <li><strong>预防机制：</strong>提出如何避免同类问题在后续项目中再次出现</li>
+    <li><strong>启示总结：</strong>1-2句话总结关键教训</li>
+  </ol>
+</div>
+
+<div class="footer">
+  2026年5月 · 基于第一批考试趋势整理 · 绩效域已成案例分析必考主流
+</div>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+{
+  "descriptive_stats": [
+    {
+      "visit_days": 0,
+      "total_users": 2161,
+      "claimed": 187,
+      "not_claimed": 1974,
+      "claimed_order_rate": 75.4,
+      "not_claimed_order_rate": 66.51,
+      "rate_diff_pp": 8.89
+    },
+    {
+      "visit_days": 1,
+      "total_users": 2623,
+      "claimed": 316,
+      "not_claimed": 2307,
+      "claimed_order_rate": 71.52,
+      "not_claimed_order_rate": 68.01,
+      "rate_diff_pp": 3.509999999999991
+    },
+    {
+      "visit_days": 2,
+      "total_users": 2850,
+      "claimed": 415,
+      "not_claimed": 2435,
+      "claimed_order_rate": 75.18,
+      "not_claimed_order_rate": 70.27,
+      "rate_diff_pp": 4.910000000000011
+    },
+    {
+      "visit_days": 3,
+      "total_users": 3405,
+      "claimed": 573,
+      "not_claimed": 2832,
+      "claimed_order_rate": 67.36,
+      "not_claimed_order_rate": 71.47,
+      "rate_diff_pp": -4.109999999999999
+    },
+    {
+      "visit_days": 4,
+      "total_users": 4272,
+      "claimed": 850,
+      "not_claimed": 3422,
+      "claimed_order_rate": 69.18,
+      "not_claimed_order_rate": 72.82,
+      "rate_diff_pp": -3.6399999999999864
+    },
+    {
+      "visit_days": 5,
+      "total_users": 5920,
+      "claimed": 1423,
+      "not_claimed": 4497,
+      "claimed_order_rate": 72.24,
+      "not_claimed_order_rate": 73.65,
+      "rate_diff_pp": -1.4100000000000108
+    },
+    {
+      "visit_days": 6,
+      "total_users": 9339,
+      "claimed": 2924,
+      "not_claimed": 6415,
+      "claimed_order_rate": 74.49,
+      "not_claimed_order_rate": 76.93,
+      "rate_diff_pp": -2.440000000000012
+    },
+    {
+      "visit_days": 7,
+      "total_users": 48906,
+      "claimed": 29122,
+      "not_claimed": 19784,
+      "claimed_order_rate": 84.07,
+      "not_claimed_order_rate": 84.16,
+      "rate_diff_pp": -0.09000000000000341
+    }
+  ],
+  "statistical_tests": [
+    {
+      "visit_days": 0.0,
+      "rate_diff_pp": 8.89,
+      "chi2": 6.13,
+      "p_value": "0.013307",
+      "significance": "*",
+      "effect_size_cramer_v": 0.0533,
+      "ci_95_low": "2.38%",
+      "ci_95_high": "15.40%",
+      "n_claimed": 187,
+      "n_not_claimed": 1974
+    },
+    {
+      "visit_days": 1.0,
+      "rate_diff_pp": 3.51,
+      "chi2": 1.58,
+      "p_value": "0.208213",
+      "significance": "不显著",
+      "effect_size_cramer_v": 0.0246,
+      "ci_95_low": "-1.82%",
+      "ci_95_high": "8.84%",
+      "n_claimed": 316,
+      "n_not_claimed": 2307
+    },
+    {
+      "visit_days": 2.0,
+      "rate_diff_pp": 4.91,
+      "chi2": 4.16,
+      "p_value": "0.041476",
+      "significance": "*",
+      "effect_size_cramer_v": 0.0382,
+      "ci_95_low": "0.37%",
+      "ci_95_high": "9.45%",
+      "n_claimed": 415,
+      "n_not_claimed": 2435
+    },
+    {
+      "visit_days": 3.0,
+      "rate_diff_pp": -4.11,
+      "chi2": 3.88,
+      "p_value": "0.048827",
+      "significance": "*",
+      "effect_size_cramer_v": 0.0338,
+      "ci_95_low": "-8.29%",
+      "ci_95_high": "0.07%",
+      "n_claimed": 573,
+      "n_not_claimed": 2832
+    },
+    {
+      "visit_days": 4.0,
+      "rate_diff_pp": -3.64,
+      "chi2": 4.5,
+      "p_value": "0.033889",
+      "significance": "*",
+      "effect_size_cramer_v": 0.0325,
+      "ci_95_low": "-7.08%",
+      "ci_95_high": "-0.20%",
+      "n_claimed": 850,
+      "n_not_claimed": 3422
+    },
+    {
+      "visit_days": 5.0,
+      "rate_diff_pp": -1.41,
+      "chi2": 1.09,
+      "p_value": "0.295535",
+      "significance": "不显著",
+      "effect_size_cramer_v": 0.0136,
+      "ci_95_low": "-4.07%",
+      "ci_95_high": "1.25%",
+      "n_claimed": 1423,
+      "n_not_claimed": 4497
+    },
+    {
+      "visit_days": 6.0,
+      "rate_diff_pp": -2.44,
+      "chi2": 6.6,
+      "p_value": "0.010209",
+      "significance": "*",
+      "effect_size_cramer_v": 0.0266,
+      "ci_95_low": "-4.33%",
+      "ci_95_high": "-0.55%",
+      "n_claimed": 2924,
+      "n_not_claimed": 6415
+    },
+    {
+      "visit_days": 7.0,
+      "rate_diff_pp": -0.09,
+      "chi2": 0.07,
+      "p_value": "0.792867",
+      "significance": "不显著",
+      "effect_size_cramer_v": 0.0012,
+      "ci_95_low": "-0.75%",
+      "ci_95_high": "0.57%",
+      "n_claimed": 29122,
+      "n_not_claimed": 19784
+    }
+  ],
+  "waste_analysis": {
+    "total_claimed": 35810,
+    "method_A_analyst_waste": 29462,
+    "method_B_insignificant_only_waste": 25771,
+    "method_C_7day_focus_waste": 24509,
+    "waste_pct_A": "82.3%",
+    "waste_pct_B": "72.0%",
+    "waste_pct_C": "68.4%"
+  },
+  "selection_bias": {
+    "claimed_rate_vs_visit_spearman_r": 1.0,
+    "claimed_rate_vs_visit_p": "0.000000",
+    "not_claimed_order_rate_vs_visit_spearman_r": 1.0
+  },
+  "overall_rates": {
+    "claimed_order_rate": "81.94%",
+    "not_claimed_order_rate": "77.88%",
+    "overall_diff_pp": "4.06"
+  }
+}

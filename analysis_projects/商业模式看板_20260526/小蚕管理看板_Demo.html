@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小蚕管理看板</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #f0f2f5; color: #333; }
+
+.header { background: linear-gradient(135deg, #1a3a5c 0%, #2563eb 100%); color: #fff; padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+.header h1 { font-size: 20px; font-weight: 600; letter-spacing: 1px; }
+.header-right { display: flex; align-items: center; gap: 16px; font-size: 13px; }
+.header-right select, .header-right button { padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.12); color: #fff; font-size: 13px; cursor: pointer; }
+.header-right select option { color: #333; background: #fff; }
+.header-right button { background: rgba(255,255,255,.2); }
+.header-right button:hover { background: rgba(255,255,255,.3); }
+
+.tabs { display: flex; background: #fff; padding: 0 24px; border-bottom: 1px solid #e8e8e8; gap: 0; }
+.tab { padding: 14px 28px; cursor: pointer; font-size: 14px; font-weight: 500; color: #666; border-bottom: 2px solid transparent; transition: all .2s; }
+.tab:hover { color: #2563eb; }
+.tab.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 600; }
+
+.content { padding: 20px 24px; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.kpi-row { display: grid; gap: 16px; margin-bottom: 20px; }
+.kpi-row.cols-5 { grid-template-columns: repeat(5, 1fr); }
+.kpi-row.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.kpi-card { background: #fff; border-radius: 8px; padding: 18px 20px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.kpi-card .label { font-size: 13px; color: #8c8c8c; margin-bottom: 8px; }
+.kpi-card .value { font-size: 28px; font-weight: 700; color: #1a3a5c; }
+.kpi-card .value.red { color: #e74c3c; }
+.kpi-card .value.green { color: #27ae60; }
+.kpi-card .change { font-size: 12px; margin-top: 3px; }
+.kpi-card .change.up { color: #e74c3c; }
+.kpi-card .change.down { color: #27ae60; }
+.kpi-card .change .arrow { font-weight: 700; }
+
+.chart-grid { display: grid; gap: 16px; margin-bottom: 20px; }
+.chart-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.chart-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.chart-grid.cols-1-2 { grid-template-columns: 1fr 2fr; }
+.chart-grid.cols-2-1 { grid-template-columns: 2fr 1fr; }
+.chart-panel { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.chart-panel h3 { font-size: 15px; font-weight: 600; color: #1a3a5c; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+.chart-box { width: 100%; }
+
+.table-wrap { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 20px; }
+.table-wrap h3 { font-size: 15px; font-weight: 600; color: #1a3a5c; margin-bottom: 12px; }
+.table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-wrap th { background: #f7f8fa; padding: 10px 12px; text-align: left; font-weight: 600; color: #555; border-bottom: 2px solid #e8e8e8; }
+.table-wrap td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+.table-wrap tr:hover td { background: #fafbfc; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; }
+.tag-up { background: #fff2f0; color: #e74c3c; }
+.tag-down { background: #f0fff5; color: #27ae60; }
+.tag-warn { background: #fffbe6; color: #d4a017; }
+
+/* 视图模式提示 */
+.view-mode-hint { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; margin-left: 8px; }
+.view-mode-hint.daily { background: #e8f0fe; color: #2563eb; }
+.view-mode-hint.weekly { background: #f0fff5; color: #27ae60; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>小蚕经营管理看板</h1>
+  <div class="header-right">
+    <span>统计日期</span>
+    <input type="date" id="sel-start" value="2026-05-25" style="padding:6px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:13px;">
+    <span>至</span>
+    <input type="date" id="sel-end" value="2026-05-25" style="padding:6px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:13px;">
+    <span id="view-mode-hint" class="view-mode-hint daily">日环比+周同比</span>
+    <button id="btn-refresh">查询</button>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="user">用户</div>
+  <div class="tab" data-tab="traffic">流量</div>
+  <div class="tab" data-tab="order">订单</div>
+  <div class="tab" data-tab="marketing">营销</div>
+</div>
+
+<div class="content">
+
+<!-- ==================== 用户模块 ==================== -->
+<div class="tab-content active" id="tab-user">
+  <div class="kpi-row cols-5" id="kpi-user"></div>
+
+  <div class="chart-grid cols-2">
+    <div class="chart-panel">
+      <h3 id="title-user-dau">DAU 日趋势（近30天）</h3>
+      <div class="chart-box" id="chart-user-dau" style="height:340px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3>用户分层构成（自然周日均）</h3>
+      <div class="chart-box" id="chart-user-segment" style="height:340px"></div>
+    </div>
+  </div>
+
+  <div class="chart-grid cols-2">
+    <div class="chart-panel">
+      <h3 id="title-user-retention">新注册 & 留存率日趋势</h3>
+      <div class="chart-box" id="chart-user-retention" style="height:300px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3>活跃天数分布（近30天）</h3>
+      <div class="chart-box" id="chart-user-active-dist" style="height:300px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 流量模块 ==================== -->
+<div class="tab-content" id="tab-traffic">
+  <div class="kpi-row cols-5" id="kpi-traffic"></div>
+
+  <div class="chart-grid cols-2">
+    <div class="chart-panel">
+      <h3 id="title-traffic-pvuv">PV / UV 日趋势（近30天）</h3>
+      <div class="chart-box" id="chart-traffic-pvuv" style="height:340px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3>转化漏斗（曝光 → 完单）</h3>
+      <div class="chart-box" id="chart-traffic-funnel" style="height:340px"></div>
+    </div>
+  </div>
+
+  <div class="chart-grid cols-2">
+    <div class="chart-panel">
+      <h3>流量来源分布</h3>
+      <div class="chart-box" id="chart-traffic-source" style="height:300px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3>各页面访问量 Top10</h3>
+      <div class="chart-box" id="chart-traffic-page" style="height:300px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 订单模块 ==================== -->
+<div class="tab-content" id="tab-order">
+  <div class="kpi-row cols-5" id="kpi-order"></div>
+
+  <div class="chart-grid cols-2">
+    <div class="chart-panel">
+      <h3 id="title-order-daily">订单量日趋势（近30天）</h3>
+      <div class="chart-box" id="chart-order-daily" style="height:340px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3 id="title-order-gmv">GMV & 客单价日趋势</h3>
+      <div class="chart-box" id="chart-order-gmv" style="height:340px"></div>
+    </div>
+  </div>
+
+  <div class="chart-grid cols-2-1">
+    <div class="chart-panel">
+      <h3>各业务线订单占比</h3>
+      <div class="chart-box" id="chart-order-biz" style="height:300px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3>订单状态分布</h3>
+      <div class="chart-box" id="chart-order-status" style="height:300px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 营销模块 ==================== -->
+<div class="tab-content" id="tab-marketing">
+  <div class="kpi-row cols-5" id="kpi-marketing"></div>
+
+  <div class="chart-grid cols-2">
+    <div class="chart-panel">
+      <h3 id="title-mkt-cost">营销费用日趋势（近30天）</h3>
+      <div class="chart-box" id="chart-mkt-cost" style="height:340px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3 id="title-mkt-roi">ROI 日趋势</h3>
+      <div class="chart-box" id="chart-mkt-roi" style="height:340px"></div>
+    </div>
+  </div>
+
+  <div class="chart-grid cols-3">
+    <div class="chart-panel">
+      <h3>费用构成（按券类型）</h3>
+      <div class="chart-box" id="chart-mkt-type" style="height:280px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3>新老客费用占比</h3>
+      <div class="chart-box" id="chart-mkt-user" style="height:280px"></div>
+    </div>
+    <div class="chart-panel">
+      <h3>各渠道 ROI 对比</h3>
+      <div class="chart-box" id="chart-mkt-channel" style="height:280px"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- .content -->
+
+<script>
+// ============================================================
+// 全局状态
+// ============================================================
+var currentMode = 'daily';   // 'daily' | 'weekly'
+var activeTab = 'user';
+
+// ============================================================
+// Tab Switch
+// ============================================================
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    activeTab = t.dataset.tab;
+    document.getElementById('tab-' + activeTab).classList.add('active');
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+  });
+});
+
+// ============================================================
+// 模拟数据生成
+// ============================================================
+function seedRandom(seed) {
+  var x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+// 生成30天模拟数据（带种子，保证同一指标每天的值稳定）
+function genDailySeries(base, pct, seed) {
+  var arr = [];
+  for (var i = 0; i < 30; i++) {
+    var r = seedRandom(seed + i);
+    arr.push(Math.round(base * (1 + (r - 0.5) * pct * 2)));
+  }
+  return arr;
+}
+
+// 日数据生成器
+var DAYS_30 = [];
+for (var i = 29; i >= 0; i--) {
+  var dd = new Date(2026, 4, 26 - i);
+  DAYS_30.push({
+    label: (dd.getMonth()+1) + '/' + dd.getDate(),
+    iso: '2026-05-' + ('0' + dd.getDate()).slice(-2)
+  });
+}
+
+// 各指标30天序列（用不同seed保证差异化）
+var dauSeries       = genDailySeries(1150000, 0.07, 100);
+var newUserSeries   = genDailySeries(25100, 0.12, 200);
+var ret1Series      = genDailySeries(38.2, 0.06, 300);
+var ret7Series      = genDailySeries(22.5, 0.05, 400);
+var recallSeries    = genDailySeries(6.3, 0.08, 500);
+
+var pvSeries        = genDailySeries(4580000, 0.06, 600);
+var uvSeries        = dauSeries.map(function(v) { return v; });
+var avgVisitSeries  = genDailySeries(387, 0.04, 700);
+var convRateSeries  = genDailySeries(68, 0.05, 800);
+var avgTimeSeries   = genDailySeries(272, 0.03, 900);
+
+var orderSeries     = genDailySeries(238000, 0.06, 1000);
+var completeRateSeries = genDailySeries(823, 0.02, 1100);
+var gmvSeries       = orderSeries.map(function(v) { return Math.round(v * 36.0); });
+var aspSeries       = genDailySeries(359, 0.03, 1200);
+var orderConvSeries = genDailySeries(895, 0.02, 1300);
+
+var costSeries      = genDailySeries(486000, 0.10, 1400);
+var roiSeries       = genDailySeries(485, 0.12, 1500);
+var couponSeries    = genDailySeries(321000, 0.09, 1600);
+var couponUseSeries = genDailySeries(415, 0.05, 1700);
+var cacSeries       = genDailySeries(832, 0.08, 1800);
+
+// 日指标访问器
+var dailyMetrics = {
+  dau:            { series: dauSeries, format: function(v) { return (v/1e4).toFixed(1)+'万'; } },
+  newUser:        { series: newUserSeries, format: function(v) { return (v/1e4).toFixed(2)+'万'; } },
+  ret1:           { series: ret1Series, format: function(v) { return v.toFixed(1)+'%'; } },
+  ret7:           { series: ret7Series, format: function(v) { return v.toFixed(1)+'%'; } },
+  recall:         { series: recallSeries, format: function(v) { return v.toFixed(1)+'%'; } },
+  pv:             { series: pvSeries, format: function(v) { return (v/1e4).toFixed(0)+'万'; } },
+  uv:             { series: uvSeries, format: function(v) { return (v/1e4).toFixed(1)+'万'; } },
+  avgVisit:       { series: avgVisitSeries, format: function(v) { return (v/100).toFixed(2)+'次'; } },
+  convRate:       { series: convRateSeries, format: function(v) { return (v/10).toFixed(1)+'%'; } },
+  avgTime:        { series: avgTimeSeries, format: function(v) { var m=Math.floor(v/60); var s=v%60; return m+':'+('0'+s).slice(-2); } },
+  orders:         { series: orderSeries, format: function(v) { return (v/1e4).toFixed(1)+'万'; } },
+  completeRate:   { series: completeRateSeries, format: function(v) { return (v/10).toFixed(1)+'%'; } },
+  gmv:            { series: gmvSeries, format: function(v) { return (v/1e4).toFixed(0)+'万'; } },
+  asp:            { series: aspSeries, format: function(v) { return (v/100).toFixed(1)+'元'; } },
+  orderConv:      { series: orderConvSeries, format: function(v) { return (v/10).toFixed(1)+'%'; } },
+  cost:           { series: costSeries, format: function(v) { return (v/1e4).toFixed(1)+'万'; } },
+  roi:            { series: roiSeries, format: function(v) { return (v/100).toFixed(2); } },
+  coupon:         { series: couponSeries, format: function(v) { return (v/1e4).toFixed(1)+'万'; } },
+  couponUse:      { series: couponUseSeries, format: function(v) { return (v/10).toFixed(1)+'%'; } },
+  cac:            { series: cacSeries, format: function(v) { return (v/100).toFixed(2)+'元'; } }
+};
+
+// 计算日环比 (期数 index 对应30天数组的下标, latest=29 即最新一天)
+function calcDoD(series, dayIndex) {
+  if (dayIndex <= 0) return null;
+  var today = series[dayIndex];
+  var yesterday = series[dayIndex - 1];
+  if (!yesterday || yesterday === 0) return null;
+  return ((today - yesterday) / yesterday * 100);
+}
+
+// 计算周同比（与7天前对比）
+function calcWoW(series, dayIndex) {
+  if (dayIndex < 7) return null;
+  var today = series[dayIndex];
+  var lastWeek = series[dayIndex - 7];
+  if (!lastWeek || lastWeek === 0) return null;
+  return ((today - lastWeek) / lastWeek * 100);
+}
+
+// 周环比（本周均值 vs 上周均值）
+function calcWoW_weekly(series, endDayIndex) {
+  if (endDayIndex < 13) return null; // need at least 14 days
+  var thisWeekSum = 0, lastWeekSum = 0;
+  for (var i = 0; i < 7; i++) {
+    thisWeekSum += series[endDayIndex - i];
+    lastWeekSum += series[endDayIndex - 7 - i];
+  }
+  if (lastWeekSum === 0) return null;
+  return ((thisWeekSum - lastWeekSum) / lastWeekSum * 100);
+}
+
+// ============================================================
+// KPI 卡片配置
+// ============================================================
+var kpiConfigs = {
+  user: [
+    { id: 'dau',        label: 'DAU（日活跃用户）',  metric: 'dau' },
+    { id: 'newUser',    label: '新注册用户',         metric: 'newUser' },
+    { id: 'ret1',       label: '次日留存率',         metric: 'ret1' },
+    { id: 'ret7',       label: '7日留存率',          metric: 'ret7' },
+    { id: 'recall',     label: '沉默用户召回率',     metric: 'recall' }
+  ],
+  traffic: [
+    { id: 'pv',         label: 'PV（页面浏览量）',   metric: 'pv' },
+    { id: 'uv',         label: 'UV（独立访客）',     metric: 'uv' },
+    { id: 'avgVisit',   label: '人均访问次数',       metric: 'avgVisit' },
+    { id: 'convRate',   label: '访问-下单转化率',    metric: 'convRate' },
+    { id: 'avgTime',    label: '平均停留时长',       metric: 'avgTime' }
+  ],
+  order: [
+    { id: 'orders',     label: '有效订单量',         metric: 'orders' },
+    { id: 'completeRate', label: '完单率',           metric: 'completeRate' },
+    { id: 'gmv',        label: 'GMV（交易额）',      metric: 'gmv' },
+    { id: 'asp',        label: '客单价',             metric: 'asp' },
+    { id: 'orderConv',  label: '下单-完单转化率',    metric: 'orderConv' }
+  ],
+  marketing: [
+    { id: 'cost',       label: '营销总费用',         metric: 'cost' },
+    { id: 'roi',        label: '营销 ROI',           metric: 'roi' },
+    { id: 'coupon',     label: '优惠券发放量',       metric: 'coupon' },
+    { id: 'couponUse',  label: '优惠券核销率',       metric: 'couponUse' },
+    { id: 'cac',        label: '新客获客成本（CAC）', metric: 'cac' }
+  ]
+};
+
+// 渲染单个tab的KPI卡片
+function renderKpiCards(tabId) {
+  var container = document.getElementById('kpi-' + tabId);
+  var configs = kpiConfigs[tabId];
+  var dayIndex = currentMode === 'daily' ? 29 : 29; // 最新一天或最近7天最后一天
+
+  var html = '';
+  configs.forEach(function(cfg) {
+    var m = dailyMetrics[cfg.metric];
+    var series = m.series;
+    var currentVal, displayVal;
+
+    if (currentMode === 'daily') {
+      // 日视图：显示最新一天的值
+      currentVal = series[dayIndex];
+      displayVal = m.format(currentVal);
+
+      var dod = calcDoD(series, dayIndex);
+      var wow = calcWoW(series, dayIndex);
+
+      var dodHtml = '';
+      if (dod !== null) {
+        var dodCls = dod >= 0 ? 'up' : 'down';
+        var dodArrow = dod >= 0 ? '↑' : '↓';
+        dodHtml = '<div class="change '+dodCls+'"><span class="arrow">'+dodArrow+'</span> '+Math.abs(dod).toFixed(1)+'% 日环比</div>';
+      } else {
+        dodHtml = '<div class="change">日环比 --</div>';
+      }
+
+      var wowHtml = '';
+      if (wow !== null) {
+        var wowCls = wow >= 0 ? 'up' : 'down';
+        var wowArrow = wow >= 0 ? '↑' : '↓';
+        wowHtml = '<div class="change '+wowCls+'"><span class="arrow">'+wowArrow+'</span> '+Math.abs(wow).toFixed(1)+'% 周同比</div>';
+      } else {
+        wowHtml = '<div class="change">周同比 --</div>';
+      }
+
+      html += '<div class="kpi-card">' +
+        '<div class="label">'+cfg.label+'</div>' +
+        '<div class="value">'+displayVal+'</div>' +
+        dodHtml +
+        wowHtml +
+        '</div>';
+    } else {
+      // 周视图：显示最近7天汇总/均值
+      var sum7 = 0;
+      for (var i = 0; i < 7; i++) {
+        // 对于比率类指标用均值，绝对值用汇总
+        sum7 += series[dayIndex - i];
+      }
+      var avg7 = sum7 / 7;
+
+      // 绝对值用汇总 (dau, pv, uv, orders, gmv, cost, coupon 等)
+      var isAbsolute = ['dau','pv','uv','orders','gmv','cost','coupon'].indexOf(cfg.metric) >= 0;
+      var isAvg = ['avgVisit','avgTime','asp'].indexOf(cfg.metric) >= 0;
+
+      if (isAbsolute) {
+        displayVal = m.format(sum7);
+      } else if (isAvg) {
+        displayVal = m.format(avg7);
+      } else {
+        // 比率类用均值
+        displayVal = m.format(avg7);
+      }
+
+      var wowW = calcWoW_weekly(series, dayIndex);
+      var wowHtml = '';
+      if (wowW !== null) {
+        var wCls = wowW >= 0 ? 'up' : 'down';
+        var wArrow = wowW >= 0 ? '↑' : '↓';
+        wowHtml = '<div class="change '+wCls+'"><span class="arrow">'+wArrow+'</span> '+Math.abs(wowW).toFixed(1)+'% 周环比</div>';
+      } else {
+        wowHtml = '<div class="change">周环比 --</div>';
+      }
+
+      html += '<div class="kpi-card">' +
+        '<div class="label">'+cfg.label+'（近7天'+(isAbsolute?'汇总':(isAvg?'均值':'均值'))+'）</div>' +
+        '<div class="value">'+displayVal+'</div>' +
+        wowHtml +
+        '</div>';
+    }
+  });
+  container.innerHTML = html;
+}
+
+// 渲染所有已激活tab的KPI卡片
+function renderAllKpis() {
+  Object.keys(kpiConfigs).forEach(function(tabId) {
+    renderKpiCards(tabId);
+  });
+}
+
+// ============================================================
+// 图表工具函数
+// ============================================================
+const BLUE = '#2563eb', BLUE_L = '#93b4f5';
+const CYAN = '#0ea5e9', TEAL = '#14b8a6';
+const RED = '#e74c3c', ORANGE = '#f39c12', GREEN = '#27ae60', PURPLE = '#8b5cf6';
+const COLORS7 = ['#E74C3C','#F39C12','#3498DB','#2ECC71','#9B59B6','#1ABC9C','#34495E'];
+
+// ---- 计算变化率序列 ----
+function dodSeries(dailyArr) {
+  return dailyArr.map(function(v, i) {
+    if (i === 0) return null;
+    var prev = dailyArr[i-1];
+    if (!prev || prev === 0) return null;
+    return +((v - prev) / prev * 100).toFixed(1);
+  });
+}
+function wowSeries(dailyArr) {
+  return dailyArr.map(function(v, i) {
+    if (i < 7) return null;
+    var prev = dailyArr[i-7];
+    if (!prev || prev === 0) return null;
+    return +((v - prev) / prev * 100).toFixed(1);
+  });
+}
+function wowWeeklySeries(weeklyArr) {
+  return weeklyArr.map(function(v, i) {
+    if (i === 0) return null;
+    var prev = weeklyArr[i-1];
+    if (!prev || prev === 0) return null;
+    return +((v - prev) / prev * 100).toFixed(1);
+  });
+}
+
+// 从日序列构建对比线（日环比 + 周同比）
+function buildDailyCmpSeries(label, dailyArr) {
+  return [
+    { name: label+'日环比(%)', data: dodSeries(dailyArr), yAxisIndex: 1,
+      lineStyle: { color: ORANGE, type: 'dashed', width: 1.5 }, itemStyle: { color: ORANGE }, symbol: 'diamond', symbolSize: 5 },
+    { name: label+'周同比(%)', data: wowSeries(dailyArr), yAxisIndex: 1,
+      lineStyle: { color: PURPLE, type: 'dashed', width: 1.5 }, itemStyle: { color: PURPLE }, symbol: 'triangle', symbolSize: 5 }
+  ];
+}
+
+// 从周序列构建对比线（周环比）
+function buildWeeklyCmpSeries(label, weeklyArr) {
+  return [
+    { name: label+'周环比(%)', data: wowWeeklySeries(weeklyArr), yAxisIndex: 1,
+      lineStyle: { color: ORANGE, type: 'dashed', width: 1.5 }, itemStyle: { color: ORANGE }, symbol: 'diamond', symbolSize: 5 }
+  ];
+}
+
+function mkLine(domId, xData, series, opts) {
+  var dom = document.getElementById(domId);
+  var inst = echarts.getInstanceByDom(dom);
+  if (inst) inst.dispose();
+  var c = echarts.init(dom);
+
+  // 如果已有 series 使用了 yAxisIndex:1（双轴），比较线改用 yAxisIndex:2
+  var hasRight = series.some(function(s) { return s.yAxisIndex >= 1; });
+  var cmpIdx = hasRight ? 2 : 1;
+
+  // 处理对比线
+  var allSeries = series.slice();
+  var yAxisArr = [{ type: 'value', axisLabel: { formatter: opts.yFmt || '{value}' } }];
+  var gridRight = 30;
+
+  if (opts.comparisonSeries && opts.comparisonSeries.length > 0) {
+    gridRight = hasRight ? 80 : 65;
+    opts.comparisonSeries.forEach(function(s) {
+      s.yAxisIndex = opts.comparisonYAxisIndex || cmpIdx;
+      allSeries.push(Object.assign({ type: 'line', smooth: true, symbol: 'circle', symbolSize: 4 }, s));
+    });
+    // 比较线右Y轴（%）
+    yAxisArr.push({
+      type: 'value', axisLabel: { formatter: '{value}%', fontSize: 10 },
+      splitLine: { show: false }
+    });
+    // 如果主系列已有右轴，需要额外加一个
+    if (hasRight) {
+      yAxisArr.splice(1, 0, {
+        type: 'value', axisLabel: { formatter: opts.y2Fmt || '{value}', fontSize: 10 },
+        splitLine: { show: false }
+      });
+      // 把原来 yAxisIndex=1 的 series 改成 yAxisIndex=1（现在在位置1）
+      // yAxisIndex=2 变成比较线%
+      allSeries.forEach(function(s) {
+        if (s.yAxisIndex >= 1 && !opts.comparisonSeries.some(function(c) { return c.name === s.name; })) {
+          s.yAxisIndex = 1;
+        }
+      });
+      // 比较线用 yAxisIndex=2
+      allSeries.forEach(function(s) {
+        if (opts.comparisonSeries.some(function(c) { return c.name === s.name; })) {
+          s.yAxisIndex = 2;
+        }
+      });
+    }
+  } else if (hasRight) {
+    yAxisArr.push({
+      type: 'value', axisLabel: { formatter: opts.y2Fmt || '{value}', fontSize: 10 },
+      splitLine: { show: false }
+    });
+    gridRight = 65;
+  }
+
+  c.setOption({
+    tooltip: { trigger: 'axis' },
+    legend: opts.legend || { show: true, bottom: 0, textStyle: { fontSize: 10 } },
+    grid: { left: 50, right: gridRight, top: 20, bottom: (opts.legend && opts.legend.show !== false ? 45 : 20) },
+    xAxis: { type: 'category', data: xData, axisLabel: { rotate: 45, fontSize: 10 } },
+    yAxis: yAxisArr,
+    series: allSeries
+  });
+  return c;
+}
+
+function mkBar(domId, xData, series, opts) {
+  var dom = document.getElementById(domId);
+  var inst = echarts.getInstanceByDom(dom);
+  if (inst) inst.dispose();
+  var c = echarts.init(dom);
+
+  var allSeries = series.map(function(s) {
+    return Object.assign({ type: 'bar', barMaxWidth: 40 }, s);
+  });
+  var yAxisArr = [{ type: 'value', axisLabel: { formatter: opts.yFmt || '{value}' } }];
+  var gridRight = 30;
+
+  if (opts.comparisonSeries && opts.comparisonSeries.length > 0) {
+    gridRight = 65;
+    opts.comparisonSeries.forEach(function(s) {
+      s.yAxisIndex = 1;
+      allSeries.push(Object.assign({ type: 'line', smooth: true, symbol: 'circle', symbolSize: 4 }, s));
+    });
+    yAxisArr.push({
+      type: 'value', axisLabel: { formatter: '{value}%', fontSize: 10 },
+      splitLine: { show: false }
+    });
+  }
+
+  c.setOption({
+    tooltip: { trigger: 'axis' },
+    legend: opts.legend || { show: true, bottom: 0, textStyle: { fontSize: 10 } },
+    grid: { left: 50, right: gridRight, top: 20, bottom: (opts.legend && opts.legend.show !== false ? 45 : 20) },
+    xAxis: { type: 'category', data: xData, axisLabel: { rotate: 45, fontSize: 10 } },
+    yAxis: yAxisArr,
+    series: allSeries
+  });
+  return c;
+}
+
+// ============================================================
+// 图表渲染（支持日/周视图切换）
+// ============================================================
+
+// 日视图X轴（天）
+var xDaily = DAYS_30.map(function(d) { return d.label; });
+// 周视图X轴
+var xWeekly = ['W18\n04/27-05/03','W19\n05/04-05/10','W20\n05/11-05/17','W21\n05/18-05/24','W22\n05/25'];
+
+var chartInstances = {};
+function getChart(domId) {
+  var dom = document.getElementById(domId);
+  var inst = echarts.getInstanceByDom(dom);
+  if (inst) inst.dispose();
+  inst = echarts.init(dom);
+  chartInstances[domId] = inst;
+  return inst;
+}
+
+// 按周聚合日序列
+function dailyToWeekly(series) {
+  // 30天 → 5周 (W18: idx 0-6, W19: 7-13, W20: 14-20, W21: 21-27, W22: 28-29+前面补)
+  // 简化：最后7天作为W22，往前推
+  var weeks = [];
+  var weekStarts = [0, 7, 14, 21, 25]; // approximate
+  for (var w = 0; w < 5; w++) {
+    var start = weekStarts[w];
+    var end = w < 4 ? weekStarts[w+1] : 30;
+    var sum = 0;
+    for (var i = start; i < end; i++) sum += series[i];
+    weeks.push(Math.round(sum / (end - start))); // 日均
+  }
+  return weeks;
+}
+
+function renderAllCharts() {
+  var isDaily = currentMode === 'daily';
+  var xData = isDaily ? xDaily : xWeekly;
+
+  // --- 用户模块 ---
+  // DAU趋势（含日环比+周同比 / 周环比）
+  var dauChartData = isDaily ? dauSeries : dailyToWeekly(dauSeries);
+  chartInstances['chart-user-dau'] = mkLine('chart-user-dau', xData, [
+    { name: (isDaily?'DAU(日)':'DAU(周均)'), data: dauChartData,
+      lineStyle: { color: BLUE, width: 2.5 }, itemStyle: { color: BLUE } }
+  ], { yFmt: function(v) { return (v/1e4).toFixed(0)+'万'; },
+    comparisonSeries: isDaily ? buildDailyCmpSeries('DAU', dauSeries) : buildWeeklyCmpSeries('DAU', dailyToWeekly(dauSeries))
+  });
+
+  // 用户分层 – 周度图不变
+  if (!chartInstances['chart-user-segment']) {
+    chartInstances['chart-user-segment'] = mkBar('chart-user-segment', ['W18','W19','W20','W21','W22'], [
+      { name: '注册', data: [23114,24056,25062,26890,25100], stack: 'a', color: COLORS7[0] },
+      { name: '沉默召回', data: [24048,25512,26979,28900,27150], stack: 'a', color: COLORS7[1] },
+      { name: '1-6天', data: [168000,172345,182313,195200,183500], stack: 'a', color: COLORS7[2] },
+      { name: '7-12天', data: [158000,160234,171306,178900,172000], stack: 'a', color: COLORS7[3] },
+      { name: '13-18天', data: [180000,182000,189049,193500,189000], stack: 'a', color: COLORS7[4] },
+      { name: '19-24天', data: [218000,219500,228754,235600,230000], stack: 'a', color: COLORS7[5] },
+      { name: '25-30天', data: [315000,318000,336190,345000,340000], stack: 'a', color: COLORS7[6] },
+    ], { yFmt: function(v) { return (v/1e4).toFixed(0)+'万'; }, legend: { show: true, bottom: 0 } });
+  }
+
+  // 新注册 & 留存（含日环比+周同比 / 周环比）
+  var retX = isDaily ? xDaily.slice(7) : xWeekly;
+  var newUserRet = isDaily ? newUserSeries.slice(7) : dailyToWeekly(newUserSeries);
+  var ret1Ret = isDaily ? ret1Series.slice(7) : dailyToWeekly(ret1Series);
+  chartInstances['chart-user-retention'] = mkLine('chart-user-retention', retX, [
+    { name: '新注册用户', data: newUserRet, lineStyle: { color: BLUE, width: 2 }, itemStyle: { color: BLUE } },
+    { name: '次日留存率(%)', data: ret1Ret, yAxisIndex: 1, lineStyle: { color: RED, width: 2 }, itemStyle: { color: RED } },
+  ], { yFmt: function(v) { return v>=1000?(v/1e4).toFixed(1)+'万':v.toFixed(0); }, y2Fmt: '{value}%',
+    comparisonSeries: isDaily ? buildDailyCmpSeries('新注册', newUserSeries.slice(7)) : buildWeeklyCmpSeries('新注册', dailyToWeekly(newUserSeries))
+  });
+
+  // 活跃天数分布 – 静态，只渲染一次
+  if (!chartInstances['chart-user-active-dist']) {
+    chartInstances['chart-user-active-dist'] = mkBar('chart-user-active-dist', ['1-3天','4-6天','7-9天','10-12天','13-15天','16-20天','21-25天','25天+'], [
+      { name: '用户量', data: [285000, 198000, 156000, 128000, 105000, 142000, 96000, 70000],
+        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[
+          {offset:0,color:BLUE},{offset:1,color:'#93b4f5'}]) } }
+    ], { yFmt: function(v) { return (v/1e4).toFixed(1)+'万'; }, legend: { show: false } });
+  }
+
+  // --- 流量模块 ---
+  var pvRaw = isDaily ? pvSeries : dailyToWeekly(pvSeries);
+  var uvRaw = isDaily ? uvSeries : dailyToWeekly(uvSeries);
+  chartInstances['chart-traffic-pvuv'] = mkLine('chart-traffic-pvuv', xData, [
+    { name: (isDaily?'PV·日(万)':'PV·周均(万)'), data: pvRaw.map(function(v){return +(v/1e4).toFixed(1);}), lineStyle: { color: BLUE, width: 2.5 }, itemStyle: { color: BLUE } },
+    { name: (isDaily?'UV·日(万)':'UV·周均(万)'), data: uvRaw.map(function(v){return +(v/1e4).toFixed(1);}), yAxisIndex: 1, lineStyle: { color: TEAL, width: 2.5 }, itemStyle: { color: TEAL } },
+  ], { yFmt: function(v) { return v+'万'; }, y2Fmt: function(v) { return v+'万'; },
+    comparisonSeries: isDaily ? buildDailyCmpSeries('PV', pvSeries) : buildWeeklyCmpSeries('PV', dailyToWeekly(pvSeries))
+  });
+
+  // 转化漏斗 – 静态
+  if (!chartInstances['chart-traffic-funnel']) {
+    chartInstances['chart-traffic-funnel'] = mkBar('chart-traffic-funnel', ['曝光','点击','下单','支付','完单'], [
+      { name: '用户量', data: [4600000, 1850000, 320000, 275000, 238000],
+        itemStyle: { color: function(p) { return [BLUE,BLUE_L,TEAL,CYAN,GREEN][p.dataIndex]; } },
+        label: { show: true, position: 'right', formatter: function(p) { return (p.value/1e4).toFixed(0)+'万 ('+(p.value/4600000*100).toFixed(1)+'%)'; } } }
+    ], { yFmt: function(v) { return (v/1e4).toFixed(0)+'万'; }, legend: { show: false } });
+  }
+
+  // 流量来源 – 静态
+  if (!chartInstances['chart-traffic-source']) {
+    var srcChart = echarts.init(document.getElementById('chart-traffic-source'));
+    srcChart.setOption({
+      tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+      legend: { bottom: 0 },
+      series: [{ type: 'pie', radius: ['45%','72%'], center: ['50%','48%'], label: { formatter: '{b}\n{c}%' },
+        data: [
+          {value:38, name:'小蚕首页推荐', itemStyle:{color:BLUE}},
+          {value:22, name:'搜索', itemStyle:{color:CYAN}},
+          {value:18, name:'团长分享', itemStyle:{color:TEAL}},
+          {value:12, name:'公众号/小程序', itemStyle:{color:ORANGE}},
+          {value:10, name:'其他', itemStyle:{color:'#ccc'}},
+        ] }]
+    });
+    chartInstances['chart-traffic-source'] = srcChart;
+  }
+
+  // 页面访问Top10 – 静态
+  if (!chartInstances['chart-traffic-page']) {
+    var pageData = [
+      {name:'首页', value:1280000},{name:'霸王餐列表', value:950000},{name:'商品详情', value:620000},
+      {name:'我的订单', value:380000},{name:'个人中心', value:260000},{name:'红包雨活动页', value:220000},
+      {name:'邀请好友', value:150000},{name:'优惠券中心', value:140000},{name:'团长中心', value:110000},
+      {name:'晓晓商品详情', value:95000}
+    ];
+    var pageChart = echarts.init(document.getElementById('chart-traffic-page'));
+    pageChart.setOption({
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
+      grid: { left: 100, right: 50, top: 10, bottom: 20 },
+      xAxis: { type: 'value', axisLabel: { formatter: function(v) { return (v/1e4).toFixed(0)+'万'; } } },
+      yAxis: { type: 'category', data: pageData.map(function(d){return d.name;}).reverse(), inverse: true, axisLabel: { fontSize: 11 } },
+      series: [{ type: 'bar', data: pageData.map(function(d){return d.value;}).reverse(), barMaxWidth: 20,
+        itemStyle: { color: new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:BLUE},{offset:1,color:'#93b4f5'}]) },
+        label: { show: true, position: 'right', fontSize: 10, formatter: function(v) { return (v.value/1e4).toFixed(0)+'万'; } } }]
+    });
+    chartInstances['chart-traffic-page'] = pageChart;
+  }
+
+  // --- 订单模块 ---
+  var orderData = isDaily ? orderSeries : dailyToWeekly(orderSeries);
+  chartInstances['chart-order-daily'] = mkLine('chart-order-daily', xData, [
+    { name: (isDaily?'有效订单量(日)':'有效订单量(周均)'), data: orderData,
+      lineStyle: { color: BLUE, width: 2.5 }, itemStyle: { color: BLUE },
+      areaStyle: { color: new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(37,99,235,0.2)'},{offset:1,color:'rgba(37,99,235,0.02)'}]) } }
+  ], { yFmt: function(v) { return (v/1e4).toFixed(1)+'万'; }, legend: { show: true, bottom: 0, textStyle: { fontSize: 10 } },
+    comparisonSeries: isDaily ? buildDailyCmpSeries('订单量', orderSeries) : buildWeeklyCmpSeries('订单量', dailyToWeekly(orderSeries))
+  });
+
+  // GMV & 客单价（含日环比+周同比 / 周环比）
+  var gmvX = isDaily ? xDaily.slice(15) : xWeekly.slice(2);
+  var gmvD = isDaily ? gmvSeries.slice(15) : dailyToWeekly(gmvSeries).slice(2);
+  var aspD = isDaily ? aspSeries.slice(15) : dailyToWeekly(aspSeries).slice(2);
+  chartInstances['chart-order-gmv'] = mkLine('chart-order-gmv', gmvX, [
+    { name: 'GMV(万)', data: gmvD.map(function(v){return +(v/1e4).toFixed(1);}),
+      lineStyle: { color: RED, width: 2.5 }, itemStyle: { color: RED } },
+    { name: '客单价(元)', data: aspD.map(function(v){return +(v/100).toFixed(1);}),
+      yAxisIndex: 1, lineStyle: { color: BLUE, width: 2 }, itemStyle: { color: BLUE } },
+  ], { yFmt: function(v) { return v.toFixed(0); }, y2Fmt: '{value}',
+    comparisonSeries: isDaily ? buildDailyCmpSeries('GMV', gmvSeries.slice(15)) : buildWeeklyCmpSeries('GMV', dailyToWeekly(gmvSeries).slice(2))
+  });
+
+  // 业务线订单占比 – 静态
+  if (!chartInstances['chart-order-biz']) {
+    var bizChart = echarts.init(document.getElementById('chart-order-biz'));
+    bizChart.setOption({
+      tooltip: { trigger: 'axis' },
+      legend: { bottom: 0 },
+      grid: { left: 50, right: 30, top: 20, bottom: 40 },
+      xAxis: { type: 'category', data: xDaily.slice(22), axisLabel: { rotate: 45, fontSize: 10 } },
+      yAxis: { type: 'value', axisLabel: { formatter: function(v) { return (v/1e4).toFixed(0)+'万'; } } },
+      series: [
+        { name: '霸王餐', type: 'bar', stack: 'a', data: genDailySeries(180000,0.05,2000).slice(22), color: BLUE, barMaxWidth: 35 },
+        { name: '晓晓活动', type: 'bar', stack: 'a', data: genDailySeries(35000,0.08,2100).slice(22), color: TEAL, barMaxWidth: 35 },
+        { name: '其他', type: 'bar', stack: 'a', data: genDailySeries(22000,0.06,2200).slice(22), color: '#ccc', barMaxWidth: 35 },
+      ]
+    });
+    chartInstances['chart-order-biz'] = bizChart;
+  }
+
+  // 订单状态 – 静态
+  if (!chartInstances['chart-order-status']) {
+    var statusChart = echarts.init(document.getElementById('chart-order-status'));
+    statusChart.setOption({
+      tooltip: { trigger: 'item', formatter: '{b}: {c} ({d}%)' },
+      series: [{
+        type: 'pie', radius: ['50%','75%'], center: ['50%','48%'],
+        label: { formatter: '{b}\n{c}万\n{d}%' },
+        data: [
+          {value:238000, name:'完单', itemStyle:{color:GREEN}},
+          {value:28500, name:'待支付', itemStyle:{color:ORANGE}},
+          {value:12000, name:'已取消', itemStyle:{color:'#ccc'}},
+          {value:8500, name:'退款', itemStyle:{color:RED}},
+        ].map(function(d) { d.value = +(d.value/1e4).toFixed(1); return d; })
+      }]
+    });
+    chartInstances['chart-order-status'] = statusChart;
+  }
+
+  // --- 营销模块 ---
+  var costX = isDaily ? xDaily.slice(15) : xWeekly.slice(2);
+  var costD = isDaily ? costSeries.slice(15) : dailyToWeekly(costSeries).slice(2);
+  chartInstances['chart-mkt-cost'] = mkBar('chart-mkt-cost', costX, [
+    { name: '优惠券费用', type: 'bar', stack: 'a', data: costD.map(function(v){return Math.round(v*0.58);}), color: BLUE, barMaxWidth: 30 },
+    { name: '红包费用', type: 'bar', stack: 'a', data: costD.map(function(v){return Math.round(v*0.25);}), color: RED, barMaxWidth: 30 },
+    { name: '其他', type: 'bar', stack: 'a', data: costD.map(function(v){return Math.round(v*0.17);}), color: '#ccc', barMaxWidth: 30 },
+  ], { yFmt: function(v) { return (v/1e4).toFixed(1)+'万'; },
+    comparisonSeries: isDaily ? buildDailyCmpSeries('营销费用', costSeries.slice(15)) : buildWeeklyCmpSeries('营销费用', dailyToWeekly(costSeries).slice(2))
+  });
+
+  // ROI（含日环比+周同比 / 周环比）
+  var roiD = isDaily ? roiSeries.slice(15) : dailyToWeekly(roiSeries).slice(2);
+  chartInstances['chart-mkt-roi'] = mkLine('chart-mkt-roi', costX, [
+    { name: 'ROI', data: roiD.map(function(v){return +(v/100).toFixed(2);}),
+      lineStyle: { color: GREEN, width: 2.5 }, itemStyle: { color: GREEN },
+      markLine: { silent: true, data: [{ yAxis: 4, label: { formatter: '警戒线 4.0', fontSize: 10 }, lineStyle: { color: RED, type: 'dashed' } }] } }
+  ], { yFmt: function(v) { return v.toFixed(2); },
+    comparisonSeries: isDaily ? buildDailyCmpSeries('ROI', roiSeries.slice(15)) : buildWeeklyCmpSeries('ROI', dailyToWeekly(roiSeries).slice(2))
+  });
+
+  // 费用构成 – 静态
+  if (!chartInstances['chart-mkt-type']) {
+    var typeChart = echarts.init(document.getElementById('chart-mkt-type'));
+    typeChart.setOption({
+      tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+      series: [{ type: 'pie', radius: ['45%','72%'], center: ['50%','48%'], label: { formatter: '{b}\n{c}%' },
+        data: [
+          {value:42, name:'新人专享券', itemStyle:{color:BLUE}},
+          {value:28, name:'满减券', itemStyle:{color:TEAL}},
+          {value:18, name:'红包雨', itemStyle:{color:RED}},
+          {value:12, name:'其他', itemStyle:{color:'#ccc'}},
+        ] }]
+    });
+    chartInstances['chart-mkt-type'] = typeChart;
+  }
+
+  // 新老客 – 静态
+  if (!chartInstances['chart-mkt-user']) {
+    var userTypeChart = echarts.init(document.getElementById('chart-mkt-user'));
+    userTypeChart.setOption({
+      tooltip: { trigger: 'item', formatter: '{b}: {c}%' },
+      series: [{ type: 'pie', radius: ['45%','72%'], center: ['50%','48%'], label: { formatter: '{b}\n{c}%' },
+        data: [
+          {value:35, name:'新客补贴', itemStyle:{color:CYAN}},
+          {value:52, name:'老客促活', itemStyle:{color:BLUE}},
+          {value:13, name:'通用', itemStyle:{color:'#ccc'}},
+        ] }]
+    });
+    chartInstances['chart-mkt-user'] = userTypeChart;
+  }
+
+  // 渠道ROI – 静态
+  if (!chartInstances['chart-mkt-channel']) {
+    var chChart = echarts.init(document.getElementById('chart-mkt-channel'));
+    chChart.setOption({
+      tooltip: { trigger: 'axis' },
+      grid: { left: 100, right: 40, top: 10, bottom: 20 },
+      xAxis: { type: 'value', axisLabel: { formatter: function(v) { return v.toFixed(1); } } },
+      yAxis: { type: 'category', data: ['团长分享码','自然新增','应用市场','信息流广告','搜索广告'], inverse: true },
+      series: [{ type: 'bar', barMaxWidth: 18, label: { show: true, position: 'right', fontSize: 11 },
+        data: [
+          {value:6.2, itemStyle:{color:GREEN}},{value:4.5, itemStyle:{color:BLUE}},
+          {value:3.1, itemStyle:{color:ORANGE}},{value:2.8, itemStyle:{color:RED}},
+          {value:2.2, itemStyle:{color:'#ccc'}},
+        ] }]
+    });
+    chartInstances['chart-mkt-channel'] = chChart;
+  }
+}
+
+// ============================================================
+// 更新图表标题（日/周视图）
+// ============================================================
+var chartTitles = {
+  daily: {
+    'title-user-dau': 'DAU 日趋势（近30天）',
+    'title-user-retention': '新注册 & 留存率日趋势',
+    'title-traffic-pvuv': 'PV / UV 日趋势（近30天）',
+    'title-order-daily': '订单量日趋势（近30天）',
+    'title-order-gmv': 'GMV & 客单价日趋势',
+    'title-mkt-cost': '营销费用日趋势（近30天）',
+    'title-mkt-roi': 'ROI 日趋势'
+  },
+  weekly: {
+    'title-user-dau': 'DAU 周趋势（近5周）',
+    'title-user-retention': '新注册 & 留存率周趋势',
+    'title-traffic-pvuv': 'PV / UV 周趋势（近5周）',
+    'title-order-daily': '订单量周趋势（近5周）',
+    'title-order-gmv': 'GMV & 客单价周趋势',
+    'title-mkt-cost': '营销费用周趋势（近5周）',
+    'title-mkt-roi': 'ROI 周趋势'
+  }
+};
+
+function updateChartTitles() {
+  var titles = chartTitles[currentMode];
+  Object.keys(titles).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = titles[id];
+  });
+}
+
+// ============================================================
+// 模式切换
+// ============================================================
+function switchMode(mode) {
+  if (currentMode === mode) return;
+  currentMode = mode;
+
+  // 更新视图提示
+  var hint = document.getElementById('view-mode-hint');
+  hint.textContent = mode === 'daily' ? '日环比+周同比' : '周环比';
+  hint.className = 'view-mode-hint ' + (mode === 'daily' ? 'daily' : 'weekly');
+
+  // 更新图表标题
+  updateChartTitles();
+
+  // 重新渲染KPI卡片
+  renderAllKpis();
+
+  // 重新渲染图表
+  renderAllCharts();
+}
+
+// ============================================================
+// 事件绑定
+// ============================================================
+function detectMode() {
+  var s = document.getElementById('sel-start').value;
+  var e = document.getElementById('sel-end').value;
+  if (!s || !e) return currentMode;
+  return (s === e) ? 'daily' : 'weekly';
+}
+
+function onDateChange() {
+  var newMode = detectMode();
+  if (newMode !== currentMode) {
+    switchMode(newMode);
+  } else {
+    renderAllKpis();
+    renderAllCharts();
+  }
+}
+
+document.getElementById('sel-start').addEventListener('change', onDateChange);
+document.getElementById('sel-end').addEventListener('change', onDateChange);
+
+document.getElementById('btn-refresh').addEventListener('click', function() {
+  onDateChange();
+});
+
+// ============================================================
+// 初始渲染
+// ============================================================
+renderAllKpis();
+updateChartTitles();
+renderAllCharts();
+
+// ============================================================
+// Resize
+// ============================================================
+window.addEventListener('resize', function() {
+  var ids = [
+    'chart-user-dau','chart-user-segment','chart-user-retention','chart-user-active-dist',
+    'chart-traffic-pvuv','chart-traffic-funnel','chart-traffic-source','chart-traffic-page',
+    'chart-order-daily','chart-order-gmv','chart-order-biz','chart-order-status',
+    'chart-mkt-cost','chart-mkt-roi','chart-mkt-type','chart-mkt-user','chart-mkt-channel'
+  ];
+  ids.forEach(function(id) {
+    var dom = document.getElementById(id);
+    if (dom) {
+      var inst = echarts.getInstanceByDom(dom);
+      if (inst) inst.resize();
+    }
+  });
+  // resize all echarts instances (including newly created ones)
+  var allDoms = document.querySelectorAll('.chart-box');
+  allDoms.forEach(function(dom) {
+    var inst = echarts.getInstanceByDom(dom);
+    if (inst) inst.resize();
+  });
+});
+</script>
+</body>
+</html>

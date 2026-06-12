@@ -110,14 +110,14 @@ def gen():
 
     # Title
     pdf.doctitle("数据架构演进")
-    pdf.subtitle("从小蚕 StarRocks 存算一体到 Paimon + StarRocks 存算分离")
+    pdf.subtitle("从小蚕 StarRocks 存算一体到 Flink 双出 + MySQL 服务层")
 
     # Section 1
     pdf.h2("现状：StarRocks 被当成全能层")
     pdf.body("StarRocks 同时承接 OLAP（分析）+ OLTP（点查）+ 存储，后端服务直接查 StarRocks 时延迟不可控。", size=10)
     pdf.ln(2)
 
-    # ASCII architecture diagram - simplified into text + structure
+    # Current problem diagram
     pdf.set_fill_color(255, 241, 240)
     pdf.set_draw_color(207, 34, 46)
     pdf.set_line_width(0.8)
@@ -151,8 +151,8 @@ def gen():
     pdf.h3("实践验证")
     pdf.body("此前试图用「再搭一套 StarRocks 集群给后端专用」来缓解，结果是：存储数据要写两份，两套集群各自维护，单集群内部的 I/O 竞争依然存在，本质上是用冗余成本换一个不彻底的解法。", bold=False)
 
-    # Section 3 - Target architecture
-    pdf.h2("目标架构：Paimon + StarRocks 存算分离 + MySQL/Redis")
+    # Section 3 - Target architecture: Flink dual-sink
+    pdf.h2("改造方案：Flink 双出 + MySQL 服务层")
     pdf.ln(2)
 
     pdf.set_fill_color(230, 244, 234)
@@ -163,105 +163,83 @@ def gen():
     pdf.set_xy(pdf.l_margin + 5, y0)
     pdf.set_font("CJK", "B", 10)
     pdf.set_text_color(26, 127, 55)
-    pdf.cell(w - 10, 6, "目标架构 — 各层物理隔离")
+    pdf.cell(w - 10, 6, "改造方案 — 不动链路，只加 sink")
     pdf.set_xy(pdf.l_margin + 5, y0 + 8)
     pdf.set_font("CJK", "", 8)
     pdf.set_text_color(40, 80, 40)
     lines = [
-        "业务数据源 ──CDC──→ OSS/COS（共享存储）",
-        "    ├── Paimon（ACID · Upsert · Time Travel）",
-        "    └── StarRocks 计算层（只做分析，弹性扩缩）",
-        "            │",
-        "            ▼ 物化视图预计算",
-        "    ┌───────┴───────┐",
-        "    ▼               ▼",
-        "  MySQL（持久化）  Redis（热缓存）",
-        "    └───────┬───────┘",
-        "            ▼",
-        "       后端服务（< 50ms）→ 看板 / 报表",
+        "MySQL 业务库 ──CDC──→ Flink（现有链路）──原有 sink──→ StarRocks（分析）",
+        "                                    └─新增 sink──→ 后端 MySQL（结果表）",
+        "Kafka 用户日志 ──→ Flink（现有链路）──原有 sink──→ StarRocks（分析）",
+        "                                    └─新增 sink──→ 后端 MySQL（结果表）",
+        "                                                           │",
+        "                                                      后端服务（< 50ms）",
+        "                                                           │",
+        "                                                    看板 / 报表",
     ]
     for l in lines:
         pdf.set_xy(pdf.l_margin + 5, pdf.get_y())
         pdf.cell(w - 10, 4.5, l)
         pdf.ln(4.5)
     y_end = pdf.get_y()
-    pdf.set_y(y_end + 6)
+    pdf.set_y(y_end + 4)
+    pdf.body("Flink 已经在跑，后端 MySQL 本来就有，改造只做两件事：1) Flink 作业加一个 MySQL JDBC sink，把后端需要的结果表写到后端 MySQL；2) 后端服务把查询切到 MySQL。不新增组件，不改业务代码。")
 
     # Section 4 - Responsibilities
     pdf.h2("各层职责")
     pdf.table(
         ["层", "角色"],
         [
-            ["Paimon", "湖格式，管实时写入、Upsert、ACID、Time Travel"],
-            ["StarRocks", "只做分析查询，挂载 Paimon 外表，存算分离弹性扩缩"],
-            ["MySQL", "OLTP 持久化层，后端点查的最终出口"],
-            ["Redis", "热缓存层，高频指标预计算后缓存"],
-            ["后端服务", "只访问 MySQL/Redis，延迟可控"],
+            ["Flink", "数据中转与计算。消费 binlog 和 Kafka，清洗聚合后双出到 StarRocks 和 MySQL"],
+            ["StarRocks", "分析查询。只接 Flink 写入，不再直接扛后端点查"],
+            ["后端 MySQL", "扛住后端 OLTP 点查。Flink 把预计算好的结果表写到这里"],
+            ["后端服务", "只访问 MySQL，延迟 < 50ms"],
         ]
     )
 
     pdf.ln(6)
-    pdf.h2("核心变化对比")
+    pdf.h2("跟现状的核心区别")
     pdf.table(
         ["现状", "改造后"],
         [
-            ["StarRocks 扛写入", "Paimon 扛写入"],
-            ["StarRocks 扛点查", "MySQL/Redis 扛点查"],
-            ["一套集群不分家", "分析和服务分层"],
-            ["锁在存算一体，扩缩绑死", "存算分离，计算弹性扩缩，存储按量付费"],
-            ["Workload Group 软隔离，I/O 不可控", "各层物理隔离，I/O 路径完全分开"],
+            ["Flink 只出 StarRocks", "Flink 双出：StarRocks + MySQL"],
+            ["StarRocks 扛点查", "MySQL 扛点查"],
+            ["后端服务查 StarRocks", "后端服务查 MySQL"],
+            ["一套集群扛所有负载", "分析（StarRocks）和服务（MySQL）分层"],
             ["后端 3 秒超时", "后端 50ms 以内"],
-            ["两套集群双写，冗余成本高", "统一存储底座，无数据冗余"],
+            ["再搭一套 SR 做隔离，冗余成本翻倍", "不新增组件，Flink 多一个 sink"],
         ]
     )
 
     # Section 5 - Cost analysis
-    pdf.add_page()
     pdf.h2("成本分析")
-
-    pdf.h3("当前成本结构")
-    pdf.body("存算一体下 BE 节点捆绑 CPU + 内存 + SSD，成本以节点为单位整体翻。此前两套集群双写方案，存储和算力各翻一倍，用冗余换隔离，边际成本线性甚至超线性增长。")
-
-    pdf.h3("目标架构成本拆解")
-    pdf.table(
-        ["组件", "角色", "成本特征"],
-        [
-            ["OSS/COS", "共享存储", "按量付费，¥0.1/GB·月级别，远低 BE 本地 SSD"],
-            ["Flink（Paimon CDC）", "实时写入与 Compaction", "最大增量成本，TaskManager 数随写入量增长"],
-            ["StarRocks CN", "纯计算", "不带盘，分析查询少了可缩容，按需弹性"],
-            ["MySQL", "OLTP 持久化", "小规格即够用（2C4G），几百元/月"],
-            ["Redis", "热缓存", "小规格（2-4GB），几百元/月"],
-        ]
-    )
+    pdf.body("改造几乎没有增量成本——Flink 和 MySQL 都是现有组件：")
+    pdf.body("· Flink 加一个 sink 不增加 TaskManager，写入量不变")
+    pdf.body("· 后端 MySQL 加几张结果表，存储增量很小（只存后端要查的列，不存全量明细）")
+    pdf.body("· 不引入 OSS / Paimon / Redis / StarRocks CN 等新组件")
     pdf.ln(2)
-    pdf.body("关键判断：组件从 1 个变成 5 个，基础设施月费短期可能不降反升。真正的成本收益不在绝对值，在边际曲线——业务增长时，存储按 GB 线性付费、计算按核弹性扩缩，不再被「扩一个 BE 就绑一块盘」锁死。Flink 集群规模是最大变量，写入流量不大的情况下整体成本可控，写入量上去后需单独评估。")
+    pdf.body("跟此前两套 StarRocks 集群方案或 Paimon 路线比，这条路没有新组件开销，只有一次性的 Flink 作业改造和结果表建表工作。")
 
     pdf.h3("边际成本对比")
     pdf.table(
-        ["场景", "当前（存算一体）", "目标（存算分离）"],
+        ["场景", "当前", "Flink 双出后"],
         [
-            ["分析查询增加", "扩 BE 节点，磁盘一起买", "扩 CN 节点，只加计算"],
-            ["存储容量不够", "扩 BE 节点，算力一起买", "扩 OSS 容量，按量付费"],
-            ["后端点查压力增大", "扩 BE 或加集群，I/O 竞争仍在", "扩 MySQL 读副本/Redis 规格，成本可控"],
-            ["闲时降本", "缩不下来（BE 带着数据）", "CN 可以缩，OSS 和 MySQL 保底"],
+            ["分析查询增加", "扩 BE 节点，磁盘一起买", "StarRocks 只跑分析，扩容不变但节奏可控"],
+            ["后端点查压力增大", "扩 BE 或加集群，I/O 竞争仍在", "扩 MySQL 读副本，成本远低于扩 BE"],
+            ["闲时降本", "缩不下来（BE 带着数据）", "StarRocks 分析侧可考虑缩容"],
+            ["新增数据链路", "新链路从头建", "往 Flink 上加 sink 即可"],
         ]
     )
 
-    # Section 6 - Business fit
-    pdf.h2("小蚕业务适配性")
-
-    pdf.h3("命中的点")
-    pdf.body("外卖业务的读写模式天然分层——下单、改状态、查订单详情是 OLTP（高频点查），看板、报表、用户分析是 OLAP（大扫聚合）。把两种负载塞进一个列存引擎里，就是目前 3 秒超时的根因。读写分离、分析和服务分层这个大方向，对小蚕是对的。")
-
-    pdf.h3("要不要上 Paimon？分情况看")
-    pdf.body("Paimon 解决的核心问题是实时湖格式（ACID、Upsert、Time Travel）和共享存储多引擎访问。但它引入了一条额外的 CDC 链路和 Flink 运维负担。小蚕目前的核心痛点不是湖格式，是后端点查超时。")
-    pdf.body("值得上 Paimon 的情况：")
-    pdf.body("· 数据量已到几十 TB 且持续涨，存储成本成为主要矛盾")
-    pdf.body("· 有多引擎共享同一份数据的需求（StarRocks + Flink + Spark 都要读）")
-    pdf.body("· 需要 Time Travel 做数据回溯（财务对账、历史快照查询）")
-    pdf.body("· 有专门的数据平台团队维护 Flink 和 Paimon 集群")
-    pdf.ln(2)
-    pdf.body("如果以上不满足，更简方案：应用层双写——写数据时同时写 StarRocks 和 MySQL，StarRocks 专注分析，MySQL 扛后端点查，Redis 做热缓存。同样解决 3 秒超时，组件更少、运维更轻、往后再按需补 Paimon。这个路径可以分步走——先做 MySQL/Redis 服务层，跑通了再看要不要加 Paimon 做湖格式，不用一步到位。")
+    # Section 6 - Future evolution
+    pdf.h2("后续演进：什么时候加 Paimon")
+    pdf.body("Flink 双出解决的是当前最紧迫的问题——后端点查超时。Paimon + StarRocks 存算分离解决的是另一个层次的问题：数据量到几十 TB 后存储成本压不住、需要多引擎共享同一份数据、需要 Time Travel 做数据回溯。")
+    pdf.body("当前阶段不必上 Paimon，但 Flink 双出的架构天然兼容后续演进——StarRocks 那路的数据已经管好了，以后如果要切到 Paimon 做湖格式，只需要把 StarRocks 的写入目标从内部表改成 Paimon 外表，Flink → MySQL 这条服务链路完全不受影响。")
+    pdf.body("加 Paimon 的触发条件：")
+    pdf.body("· 数据量到几十 TB，StarRocks 本地存储成本成为主要矛盾")
+    pdf.body("· 有多引擎共享同一份数据的需求（StarRocks + Flink + Spark 都要读同一份）")
+    pdf.body("· 需要 Time Travel 做数据回溯（财务对账、历史快照）")
+    pdf.body("· 有专门的数据平台团队能维护 Paimon 集群")
 
     pdf.ln(6)
     pdf.set_fill_color(255, 248, 197)
@@ -272,9 +250,9 @@ def gen():
     pdf.set_xy(pdf.l_margin + 8, y_box + 3)
     pdf.set_font("CJK", "B", 10)
     pdf.set_text_color(120, 80, 0)
-    pdf.cell(w - 16, 8, "综合判断：存算分离、读写分层的方向没错，但不必一步到位到 Paimon。核心矛盾是 OLTP"
-             "不该打 OLAP 数据库——先把 MySQL/Redis 服务层建起来，StarRocks 回归分析，"
-             "已经可以解决 3 秒超时。Paimon 留到数据规模上来、存储成本成为主要矛盾时再上。")
+    pdf.cell(w - 16, 8, "结论：Flink 加一个 MySQL sink，后端服务切到 MySQL，3 秒超时直接解决。"
+             "不动链路、不建新集群、不加组件，现有条件下最省路径。"
+             "Paimon 留到数据规模上来再说，Flink 双出的架构到时候可以平滑切过去。")
 
     path = "/Users/dataanalysis_dahe/Desktop/claude-data-analysis-main/架构演进.pdf"
     pdf.output(path)

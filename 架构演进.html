@@ -101,6 +101,8 @@
   }
   .pain-item:last-child { border-bottom: none; }
   .pain-item strong { color: var(--danger); }
+  ul { margin: 8px 0 8px 20px; padding: 0; }
+  ul li { margin: 4px 0; }
   .verdict {
     background: #fff8c5;
     border-left: 3px solid #d4a72c;
@@ -239,8 +241,84 @@ flowchart TB
 </table>
 </div>
 
+<!-- 成本分析 -->
+<h2>成本分析</h2>
+
+<div class="card">
+  <h3>当前成本结构</h3>
+  <p>存算一体下 BE 节点捆绑 CPU + 内存 + SSD，成本以节点为单位整体翻。此前两套集群双写方案，存储和算力各翻一倍，用冗余换隔离，边际成本线性甚至超线性增长。</p>
+
+  <h3>目标架构成本拆解</h3>
+  <table>
+    <tr><th>组件</th><th>角色</th><th>成本特征</th></tr>
+    <tr><td><strong>OSS/COS</strong></td><td>共享存储</td><td>按量付费，¥0.1/GB·月级别，远低 BE 本地 SSD</td></tr>
+    <tr><td><strong>Flink（Paimon CDC）</strong></td><td>实时写入与 Compaction</td><td><span class="highlight">最大增量成本</span>，TaskManager 数量随写入流量增长</td></tr>
+    <tr><td><strong>StarRocks CN</strong></td><td>纯计算</td><td>不带盘，分析查询少了可缩容，按需弹性</td></tr>
+    <tr><td><strong>MySQL</strong></td><td>OLTP 持久化</td><td>小规格即够用（2C4G），几百元/月</td></tr>
+    <tr><td><strong>Redis</strong></td><td>热缓存</td><td>小规格（2-4GB），几百元/月</td></tr>
+  </table>
+  <p style="margin-top:14px;"><strong>关键判断：</strong>组件从 1 个变成 5 个，基础设施月费短期可能不降反升。真正的成本收益不在绝对值，在边际曲线——业务增长时，存储按 GB 线性付费、计算按核弹性扩缩，不再被「扩一个 BE 就绑一块盘」锁死。Flink 集群规模是最大变量，写入流量不大的情况下整体成本可控，写入量上去后需单独评估。</p>
+</div>
+
+<div class="card">
+  <h3>边际成本对比</h3>
+  <table>
+    <tr><th>场景</th><th>当前（存算一体）</th><th>目标（存算分离）</th></tr>
+    <tr><td>分析查询增加</td><td>扩 BE 节点，磁盘一起买</td><td>扩 CN 节点，只加计算</td></tr>
+    <tr><td>存储容量不够</td><td>扩 BE 节点，算力一起买</td><td>扩 OSS 容量，按量付费</td></tr>
+    <tr><td>后端点查压力增大</td><td>扩 BE 或加集群，I/O 竞争仍在</td><td>扩 MySQL 读副本 / Redis 规格，成本可控</td></tr>
+    <tr><td>闲时降本</td><td>缩不下来（BE 带着数据）</td><td>CN 可以缩，OSS 和 MySQL 保底</td></tr>
+  </table>
+</div>
+
+<!-- 小蚕业务适配性 -->
+<h2>小蚕业务适配性</h2>
+
+<div class="card">
+  <h3>命中的点</h3>
+  <p>外卖业务的读写模式天然分层——下单、改状态、查订单详情是 OLTP（高频点查），看板、报表、用户分析是 OLAP（大扫聚合）。把两种负载塞进一个列存引擎里，就是目前 3 秒超时的根因。<strong>读写分离、分析和服务分层这个大方向，对小蚕是对的。</strong></p>
+</div>
+
+<div class="card">
+  <h3>要不要上 Paimon？分情况看</h3>
+  <p>Paimon 解决的核心问题是实时湖格式（ACID、Upsert、Time Travel）和共享存储多引擎访问。但它引入了一条额外的 CDC 链路和 Flink 运维负担。小蚕目前的核心痛点不是湖格式，是后端点查超时。</p>
+
+  <p><strong>值得上 Paimon 的情况：</strong></p>
+  <ul>
+    <li>数据量已到几十 TB 且持续涨，存储成本成为主要矛盾</li>
+    <li>有多引擎共享同一份数据的需求（StarRocks + Flink + Spark 都要读）</li>
+    <li>需要 Time Travel 做数据回溯（财务对账、历史快照查询）</li>
+    <li>有专门的数据平台团队维护 Flink 和 Paimon 集群</li>
+  </ul>
+
+  <p><strong>如果以上不满足，更简方案：</strong></p>
+  <div class="mermaid">
+flowchart LR
+    APP["应用层"]
+    SR2["StarRocks<br/>分析"]
+    MYSQL2["MySQL<br/>服务层"]
+    MV2["物化视图"]
+    REDIS2["Redis<br/>热缓存"]
+    BACKEND3["后端服务"]
+
+    APP -->|"双写"| SR2
+    APP -->|"双写"| MYSQL2
+    SR2 --> MV2
+    MV2 --> REDIS2
+    MYSQL2 --> BACKEND3
+    REDIS2 --> BACKEND3
+
+    style APP fill:#e8f0fe,stroke:#4285f4
+    style SR2 fill:#e6f4ea,stroke:#1a7f37
+    style MYSQL2 fill:#e6f4ea,stroke:#1a7f37
+    style REDIS2 fill:#fce8e6,stroke:#ea4335
+    style BACKEND3 fill:#e6f4ea,stroke:#1a7f37
+  </div>
+  <p>应用层写数据时同时写 StarRocks 和 MySQL，StarRocks 专注分析，MySQL 扛后端点查，Redis 做热缓存。同样解决 3 秒超时，组件更少、运维更轻、往后再按需补 Paimon。这个路径可以分步走——先做 MySQL/Redis 服务层，跑通了再看要不要加 Paimon 做湖格式，不用一步到位。</p>
+</div>
+
 <div class="verdict">
-<strong>核心思路：</strong>不是换一个引擎，是把 OLAP 和 OLTP 的职责拆开。StarRocks 回归分析定位，Paimon 解决写入和事务，MySQL/Redis 扛住后端服务层。各层各司其职，不再让一个组件背所有锅。
+<strong>综合判断：</strong>存算分离、读写分层的方向没错，但不必一步到位到 Paimon。核心矛盾是 OLTP 不该打 OLAP 数据库——先把 MySQL/Redis 服务层建起来，StarRocks 回归分析，已经可以解决 3 秒超时。Paimon 留到数据规模上来、存储成本成为主要矛盾时再上。
 </div>
 
 </div>
